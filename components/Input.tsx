@@ -25,7 +25,7 @@ export const Input = (props: InputProps) => {
           placeholder="Type your answer here"
           variant="standard"
           color="info"
-          className="mt-8  border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
+          className="mt-8 border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
           inputProps={{
             className: "text-3xl text-white placeholder:font-thin",
           }}

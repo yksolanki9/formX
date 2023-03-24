@@ -1,4 +1,4 @@
-import { InputProps } from "../models/InputProps";
+import { InputProps } from "@/models/InputProps";
 
 export const formInputs: InputProps[] = [
   {
