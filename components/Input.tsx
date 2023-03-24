@@ -17,6 +17,7 @@ export const Input = (props: InputProps) => {
         <div className="text-2xl">
           {props.title} {props.mandatory && <span>*</span>}
         </div>
+        <div className="text-xl opacity-70 mt-2">{props.subtitle}</div>
         <TextField
           required
           fullWidth
@@ -33,9 +34,11 @@ export const Input = (props: InputProps) => {
           <Button variant="contained" endIcon={<DoneIcon />}>
             OK
           </Button>
-          <span className="text-xs pl-4">
-            press <strong>Enter ↵ </strong>
-          </span>
+          {props.type === "TEXT" && (
+            <span className="text-xs pl-4">
+              press <strong>Enter ↵ </strong>
+            </span>
+          )}
         </div>
       </div>
     </div>
