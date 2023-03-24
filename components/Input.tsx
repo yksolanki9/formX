@@ -1,11 +1,13 @@
 import Button from "@mui/material/Button";
 import DoneIcon from "@mui/icons-material/Done";
 import TextField from "@mui/material/TextField";
+import { InputProps } from "@/models/InputProps";
 
-export const Input = () => {
+export const Input = (props: InputProps) => {
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
       <div>
+        {/*TODO: Add a number to the left of the title */}
         {/* <div>
           <div>
           <span>1</span>
@@ -13,7 +15,7 @@ export const Input = () => {
           </div>
         </div> */}
         <div className="text-2xl">
-          What's your first name? <span>*</span>
+          {props.title} {props.mandatory && <span>*</span>}
         </div>
         <TextField
           required
