@@ -1,29 +1,43 @@
-//@ts-nocheck
 import { useState } from "react";
 import { FormControl, FormLabel } from "@mui/material";
-import DoneIcon from "@mui/icons-material/Done";
 import { SelectOption } from "./SelectOption";
 
-export const SelectField = ({ options }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
+type Props = {
+  options: string[];
+};
 
-  const handleOptionClick = (option) => {
-    setSelectedOption(option.target.value);
-    setSubmitted(true);
+export const SelectField = ({ options }: Props) => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  // const [submitted, setSubmitted] = useState(false);
+
+  const handleOptionClick = (option: string) => {
+    setSelectedOption(option);
+    // setSubmitted(true);
   };
+
+  //Create object with a letter as id and label
+  const optionWithIds = options.map((option, index) => ({
+    label: option,
+    id: String.fromCharCode(65 + index),
+  }));
 
   return (
     <>
       <FormControl component="fieldset">
-        <FormLabel component="legend">
-          Which of the following is correct?
-        </FormLabel>
-        {options.map((option, index) => (
-          <SelectOption key={index} label={option} selected={false} />
-        ))}
+        <FormLabel component="legend">Label</FormLabel>
+        <div>
+          {optionWithIds.map((optionWithId) => (
+            <SelectOption
+              key={optionWithId.id}
+              id={optionWithId.id}
+              label={optionWithId.label}
+              selected={optionWithId.label === selectedOption}
+              onOptionClicked={handleOptionClick}
+            />
+          ))}
+        </div>
       </FormControl>
-      <div>{submitted && <p>You selected {selectedOption}.</p>}</div>
+      {/* <div>{submitted && <p>You selected {selectedOption}.</p>}</div> */}
     </>
   );
 };
