@@ -22,6 +22,13 @@ export const formInputs: FormField[] = [
     subtitle: "We want to understand how you spend your time right now.",
     type: "select",
     mandatory: true,
+    options: [
+      "Founder or CXO",
+      "Product Team",
+      "Marketing Team",
+      "VC",
+      "Other",
+    ],
   },
   {
     title: "<name>, what's your professional goal for the next 12 months?",

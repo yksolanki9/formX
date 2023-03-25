@@ -3,6 +3,7 @@ import { FormField } from "@/models/form-field.model";
 import { useState } from "react";
 import { Error } from "@/components/Error";
 import { NavButton } from "@/components/NavButton";
+import { SelectField } from "@/components/SelectField";
 
 export const Input = ({
   title,
@@ -12,6 +13,7 @@ export const Input = ({
   mandatory,
   numSelections,
   buttonType,
+  options,
 }: FormField) => {
   const [value, setValue] = useState<string>();
   const [error, setError] = useState<string | null>();
@@ -43,21 +45,28 @@ export const Input = ({
           {title} {mandatory && <span>*</span>}
         </div>
         <div className="text-xl opacity-70 mt-2">{subtitle}</div>
-        <TextField
-          required
-          fullWidth
-          id="standard-required"
-          placeholder="Type your answer here"
-          variant="standard"
-          color="info"
-          type={subtype || type}
-          className="mt-8 border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
-          inputProps={{
-            className: "text-3xl text-white placeholder:font-thin",
-          }}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
+        {type === "text" && (
+          <TextField
+            required
+            fullWidth
+            id="standard-required"
+            placeholder="Type your answer here"
+            variant="standard"
+            color="info"
+            type={subtype || type}
+            className="mt-8 border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
+            inputProps={{
+              className: "text-3xl text-white placeholder:font-thin",
+            }}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        )}
+
+        {type === "select" && options?.length && (
+          <SelectField options={options}></SelectField>
+        )}
+
         {error && <Error error={error} />}
         {!error && <NavButton buttonType={buttonType} inputType={type} />}
       </div>

@@ -7,4 +7,5 @@ export interface FormField {
   mandatory?: boolean;
   numSelections?: number;
   buttonType?: "submit" | "button";
+  options?: string[];
 }
