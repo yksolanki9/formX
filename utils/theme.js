@@ -8,5 +8,8 @@ export const theme = createTheme({
     info: {
       main: "#FFFFFF",
     },
+    error: {
+      main: "rgb(175, 4, 4)",
+    },
   },
 });

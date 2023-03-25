@@ -1,7 +1,8 @@
-import Button from "@mui/material/Button";
-import DoneIcon from "@mui/icons-material/Done";
 import TextField from "@mui/material/TextField";
 import { FormField } from "@/models/form-field.model";
+import { useState } from "react";
+import { Error } from "@/components/Error";
+import { NavButton } from "@/components/NavButton";
 
 export const Input = ({
   title,
@@ -12,6 +13,22 @@ export const Input = ({
   numSelections,
   buttonType,
 }: FormField) => {
+  const [value, setValue] = useState<string>();
+  const [error, setError] = useState<string | null>();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    handleBlur();
+  };
+
+  const handleBlur = () => {
+    if (!value || value.trim().length === 0) {
+      setError("Please fill this in");
+    } else {
+      setError(null);
+    }
+  };
+
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
       <div>
@@ -38,21 +55,11 @@ export const Input = ({
           inputProps={{
             className: "text-3xl text-white placeholder:font-thin",
           }}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
-        <div className="pt-4">
-          <Button
-            type={buttonType || "button"}
-            variant="contained"
-            endIcon={<DoneIcon />}
-          >
-            OK
-          </Button>
-          {type === "text" && (
-            <span className="text-xs pl-4">
-              press <strong>Enter ↵ </strong>
-            </span>
-          )}
-        </div>
+        {error && <Error error={error} />}
+        {!error && <NavButton buttonType={buttonType} inputType={type} />}
       </div>
     </div>
   );
