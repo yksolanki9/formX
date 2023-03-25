@@ -4,7 +4,7 @@ import type { AppProps } from 'next/app'
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../utils/theme";
 
-import { Questrial } from "@next/font/google";
+import { Questrial } from "next/font/google";
 const questrial = Questrial({
   weight: "400",
   style: "normal",
