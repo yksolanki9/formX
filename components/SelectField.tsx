@@ -32,7 +32,7 @@ export const SelectField = ({ options }: Props) => {
               id={optionWithId.id}
               label={optionWithId.label}
               selected={optionWithId.label === selectedOption}
-              onOptionClicked={handleOptionClick}
+              onOptionSelected={handleOptionClick}
             />
           ))}
         </div>

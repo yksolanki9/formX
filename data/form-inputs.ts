@@ -35,6 +35,13 @@ export const formInputs: FormField[] = [
     type: "select",
     numSelections: 2,
     mandatory: true,
+    options: [
+      "Get hired",
+      "Get promoted",
+      "Connect with like-minded people",
+      "Structured approach to growth",
+      "Build a growth team",
+    ],
   },
   {
     title: "Email you'd like to register with?",

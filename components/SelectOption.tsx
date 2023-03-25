@@ -1,20 +1,39 @@
 import DoneIcon from "@mui/icons-material/Done";
+import { useRef } from "react";
 
 type Props = {
   id: string;
   label: string;
   selected: boolean;
-  onOptionClicked: (option: any) => void;
+  onOptionSelected: (option: any) => void;
 };
 
 export const SelectOption = ({
   id,
   label,
   selected,
-  onOptionClicked,
+  onOptionSelected,
 }: Props) => {
+  const otherOptionRef = useRef<HTMLDivElement>(null);
+
+  function onOptionClicked(label: string) {
+    if (otherOptionRef.current && label === "Other") {
+      const labelDivRef = otherOptionRef.current.querySelector(
+        "#label"
+      ) as HTMLDivElement;
+      if (labelDivRef) {
+        labelDivRef.innerText = "";
+        labelDivRef.contentEditable = "true";
+        labelDivRef.focus();
+      }
+    } else {
+      onOptionSelected(label);
+    }
+  }
+
   return (
     <div
+      ref={label === "Other" ? otherOptionRef : null}
       className={`flex items-center bg-white/10 hover:bg-white/30 rounded-[3px] h-10 mt-2 ${
         selected ? "shadow-btn-selected" : "shadow-btn"
       }`}
@@ -30,7 +49,9 @@ export const SelectOption = ({
       >
         <strong>{id}</strong>
       </div>
-      <div className="text-xl">{label}</div>
+      <div id="label" className="text-xl">
+        {label}
+      </div>
       <div className={`ml-auto px-4 ${selected ? "visible" : "invisible"}`}>
         <DoneIcon />
       </div>
