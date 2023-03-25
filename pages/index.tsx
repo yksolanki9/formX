@@ -2,16 +2,15 @@ import { About } from "@/components/About";
 import { Input } from "@/components/Input";
 import { formInputs } from "@/data/form-inputs";
 import { about } from "@/data/about";
+import { Layout } from "@/components/Layout";
 
 export default function Home() {
   return (
-    <>
+    <Layout>
       <About {...about} />
-      <div className="snap-y snap-mandatory h-screen overflow-scroll sm:px-20 px-10">
-        {formInputs.map((formInput, index) => (
-          <Input key={index} {...formInput} />
-        ))}
-      </div>
-    </>
+      {formInputs.map((formInput, index) => (
+        <Input key={index} {...formInput} />
+      ))}
+    </Layout>
   );
 }

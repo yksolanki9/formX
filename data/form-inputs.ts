@@ -1,6 +1,4 @@
-import { InputProps } from "@/models/InputProps";
-
-export const formInputs: InputProps[] = [
+export const formInputs = [
   {
     title: "What's your first name?",
     type: "TEXT",
