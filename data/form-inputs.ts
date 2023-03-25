@@ -1,29 +1,31 @@
-export const formInputs = [
+import { FormField } from "@/models/form-field.model";
+
+export const formInputs: FormField[] = [
   {
     title: "What's your first name?",
-    type: "TEXT",
+    type: "text",
     mandatory: true,
   },
   {
     title: "and your last name, <name>?",
-    type: "TEXT",
+    type: "text",
     mandatory: true,
   },
   {
     title: "What industry is your company in?",
     subtitle: "We will personalize your learning experience accordingly",
-    type: "DROPDOWN",
+    type: "dropdown",
     mandatory: true,
   },
   {
     title: "Your role in your company?",
     subtitle: "We want to understand how you spend your time right now.",
-    type: "SELECT",
+    type: "select",
     mandatory: true,
   },
   {
     title: "<name>, what's your professional goal for the next 12 months?",
-    type: "SELECT",
+    type: "select",
     numSelections: 2,
     mandatory: true,
   },
@@ -31,8 +33,9 @@ export const formInputs = [
     title: "Email you'd like to register with?",
     subtitle:
       "We will keep all our communications with you through this email. Do check your spam inbox if you can't find our application received email.",
-    type: "TEXT",
-    subtype: "EMAIL",
+    type: "text",
+    subtype: "email",
     mandatory: true,
+    buttonType: "submit",
   },
 ];

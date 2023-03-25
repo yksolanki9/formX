@@ -1,12 +1,5 @@
+import { AboutProps } from "@/models/about-props.model";
 import Button from "@mui/material/Button";
-
-type Props = {
-  title: string;
-  subtitle: string;
-  listHeader: string;
-  listItems: string[];
-  action: string;
-};
 
 export const About = ({
   title,
@@ -14,7 +7,7 @@ export const About = ({
   listHeader,
   listItems,
   action,
-}: Props) => {
+}: AboutProps) => {
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
       <div>
