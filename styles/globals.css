@@ -111,3 +111,12 @@ a {
     color-scheme: dark;
   }
 }
+
+.MuiLinearProgress-root{
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+}
+
+.MuiLinearProgress-barColorPrimary {
+  background-color: white;
+}
