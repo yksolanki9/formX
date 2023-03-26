@@ -8,6 +8,11 @@ import { formOptionsMapping } from "@/data/form-inputs";
 import { Option } from "@/models/option.model";
 import { MultiSelectField } from "./MultiSelectField";
 
+type Props = FormField & {
+  scrollToNextWindow: (index: number) => void;
+  curWindowIndex: number;
+};
+
 export const Input = ({
   title,
   subtitle,
@@ -18,7 +23,9 @@ export const Input = ({
   buttonType,
   optionIds,
   dependentOptionIds,
-}: FormField) => {
+  scrollToNextWindow,
+  curWindowIndex,
+}: Props) => {
   const [value, setValue] = useState<string>();
   const [error, setError] = useState<string | null>();
 
@@ -51,6 +58,8 @@ export const Input = ({
       setError(null);
     }
   };
+
+  const onCtaClicked = () => scrollToNextWindow(curWindowIndex);
 
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
@@ -97,7 +106,13 @@ export const Input = ({
         )}
 
         {error && <Error error={error} />}
-        {!error && <NavButton buttonType={buttonType} inputType={type} />}
+        {!error && (
+          <NavButton
+            onCtaClicked={onCtaClicked}
+            buttonType={buttonType}
+            inputType={type}
+          />
+        )}
       </div>
     </div>
   );

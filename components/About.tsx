@@ -1,13 +1,24 @@
 import { AboutProps } from "@/models/about-props.model";
 import Button from "@mui/material/Button";
 
+type Props = AboutProps & {
+  scrollToNextWindow: (index: number) => void;
+  curWindowIndex: number;
+};
+
 export const About = ({
   title,
   subtitle,
   listHeader,
   listItems,
   action,
-}: AboutProps) => {
+  scrollToNextWindow,
+  curWindowIndex,
+}: Props) => {
+  const handleClick = () => {
+    scrollToNextWindow(curWindowIndex);
+  };
+
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
       <div>
@@ -20,7 +31,11 @@ export const About = ({
           ))}
         </div>
         <div className="pt-4">
-          <Button className="normal-case" variant="contained">
+          <Button
+            onClick={handleClick}
+            className="normal-case"
+            variant="contained"
+          >
             {action}
           </Button>
           <span className="text-xs pl-4">
