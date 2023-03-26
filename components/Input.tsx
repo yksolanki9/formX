@@ -6,6 +6,7 @@ import { NavButton } from "@/components/NavButton";
 import { SelectField } from "@/components/SelectField";
 import { formOptionsMapping } from "@/data/form-inputs";
 import { Option } from "@/models/option.model";
+import { MultiSelectField } from "./MultiSelectField";
 
 export const Input = ({
   title,
@@ -29,6 +30,15 @@ export const Input = ({
   let options: Option[] = [];
   if (type === "select" && optionIds?.length) {
     options = optionIds.map((optionId) => ({
+      id: optionId,
+      label: formOptionsMapping[optionId],
+    }));
+  }
+
+  // Handle Dependent field select options here
+  if (type === "dependent_select" && dependentOptionIds) {
+    //TODO: Removing the hardcoding of field id 102
+    options = dependentOptionIds[102].map((optionId) => ({
       id: optionId,
       label: formOptionsMapping[optionId],
     }));
@@ -76,6 +86,14 @@ export const Input = ({
 
         {type === "select" && options?.length && (
           <SelectField options={options}></SelectField>
+        )}
+
+        {/* Replace type to be of MULTI_SELECT */}
+        {type === "dependent_select" && options?.length && (
+          <MultiSelectField
+            options={options}
+            numSelections={numSelections}
+          ></MultiSelectField>
         )}
 
         {error && <Error error={error} />}
