@@ -13,6 +13,10 @@ function submit() {
 export default function Home() {
   const [loading, setLoading] = useState(true);
   setTimeout(() => setLoading(false), 1200);
+
+  const formChanged = (event: any) => {
+    console.log(event.target.value);
+  };
   return (
     <>
       {loading ? (
@@ -20,7 +24,7 @@ export default function Home() {
       ) : (
         <Layout>
           <About {...about} />
-          <form onSubmit={submit}>
+          <form onChange={formChanged} onSubmit={submit}>
             {formInputs.map((formInput, index) => (
               <Input key={index} {...formInput} />
             ))}

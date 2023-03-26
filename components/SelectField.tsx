@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { FormControl, FormLabel } from "@mui/material";
+import { Option } from "@/models/option.model";
 import { SelectOption } from "./SelectOption";
 
 type Props = {
-  options: string[];
+  options: Option[];
 };
 
 export const SelectField = ({ options }: Props) => {
@@ -16,9 +17,9 @@ export const SelectField = ({ options }: Props) => {
   };
 
   //Create object with a letter as id and label
-  const optionWithIds = options.map((option, index) => ({
-    label: option,
-    id: String.fromCharCode(65 + index),
+  const optionWithCharIds = options.map((option, index) => ({
+    label: option.label,
+    charId: String.fromCharCode(65 + index),
   }));
 
   return (
@@ -26,12 +27,12 @@ export const SelectField = ({ options }: Props) => {
       <FormControl component="fieldset">
         <FormLabel component="legend">Label</FormLabel>
         <div>
-          {optionWithIds.map((optionWithId) => (
+          {optionWithCharIds.map(({ charId, label }) => (
             <SelectOption
-              key={optionWithId.id}
-              id={optionWithId.id}
-              label={optionWithId.label}
-              selected={optionWithId.label === selectedOption}
+              key={charId}
+              id={charId}
+              label={label}
+              selected={label === selectedOption}
               onOptionSelected={handleOptionClick}
             />
           ))}

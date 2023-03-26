@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Error } from "@/components/Error";
 import { NavButton } from "@/components/NavButton";
 import { SelectField } from "@/components/SelectField";
+import { formOptionsMapping } from "@/data/form-inputs";
+import { Option } from "@/models/option.model";
 
 export const Input = ({
   title,
@@ -13,7 +15,8 @@ export const Input = ({
   mandatory,
   numSelections,
   buttonType,
-  options,
+  optionIds,
+  dependentOptionIds,
 }: FormField) => {
   const [value, setValue] = useState<string>();
   const [error, setError] = useState<string | null>();
@@ -22,6 +25,14 @@ export const Input = ({
     setValue(event.target.value);
     handleBlur();
   };
+
+  let options: Option[] = [];
+  if (type === "select" && optionIds?.length) {
+    options = optionIds.map((optionId) => ({
+      id: optionId,
+      label: formOptionsMapping[optionId],
+    }));
+  }
 
   const handleBlur = () => {
     if (!value || value.trim().length === 0) {

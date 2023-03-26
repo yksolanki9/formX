@@ -3,7 +3,7 @@ import DoneIcon from "@mui/icons-material/Done";
 
 type Props = {
   buttonType?: "submit" | "button";
-  inputType: "text" | "select" | "dropdown";
+  inputType: "text" | "select" | "dropdown" | "dependent_select";
 };
 
 export const NavButton = ({ buttonType, inputType }: Props) => {
