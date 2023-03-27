@@ -5,6 +5,7 @@ import { about } from "@/data/about";
 import { Layout } from "@/components/Layout";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/Loading";
+import { Form } from "@/models/form.model";
 
 function submit() {
   console.log("submit form");
@@ -18,7 +19,7 @@ type FormOption = {
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [scroll, setScroll] = useState<boolean>(true);
-  const [formState, setFormState] = useState<any[]>([]);
+  const [formState, setFormState] = useState<Form>({});
 
   const windowRefs: MutableRefObject<HTMLDivElement>[] = [];
   for (let i = 0; i <= formInputs.length; i++) {
@@ -42,7 +43,7 @@ export default function Home() {
   };
 
   const updateFormState = (change: FormOption, index: number) => {
-    const updatedFormState = formState;
+    const updatedFormState = { ...formState };
     updatedFormState[index] = change;
     setFormState(updatedFormState);
     console.log("UPDATEFORMSTATE", updatedFormState);
@@ -68,6 +69,7 @@ export default function Home() {
             {formInputs.map((formInput, index) => (
               <div key={index} ref={windowRefs[index + 1]}>
                 <Input
+                  form={formState}
                   curWindowIndex={index + 1}
                   scrollToNextWindow={scrollToNextWindow}
                   allowScroll={setScroll}

@@ -8,6 +8,7 @@ import { Option } from "@/models/option.model";
 import { MultiSelectField } from "./MultiSelectField";
 import { TextInput } from "./TextInput";
 import { TextInputRef } from "@/models/text-input-ref.model";
+import { Form } from "@/models/form.model";
 
 type Props = FormField & {
   scrollToNextWindow: (index: number) => void;
@@ -17,6 +18,7 @@ type Props = FormField & {
     change: { label: string; value: string | string[] },
     index: number
   ) => void;
+  form: Form;
 };
 
 export const Input = ({
@@ -33,24 +35,51 @@ export const Input = ({
   curWindowIndex,
   allowScroll,
   updateForm,
+  form,
+  parentFieldId,
+  id: fieldId,
 }: Props) => {
   const [error, setError] = useState<string | null>();
+  const [options, setOptions] = useState<Option[]>([]);
 
-  let options: Option[] = [];
   if (type === "select" && optionIds?.length) {
-    options = optionIds.map((optionId) => ({
+    const optionsForSelectField = optionIds.map((optionId) => ({
       id: optionId,
       label: formOptionsMapping[optionId],
     }));
+    useEffect(() => setOptions(optionsForSelectField), []);
   }
 
-  // Handle Dependent field select options here
-  if (type === "dependent_select" && dependentOptionIds) {
-    //TODO: Removing the hardcoding of field id 102
-    options = dependentOptionIds[102].map((optionId) => ({
+  const getOptionsForDependentField = (
+    dependentOptionIds: { [key: number]: number[] },
+    parentFieldOptionId: number
+  ) =>
+    dependentOptionIds[parentFieldOptionId].map((optionId) => ({
       id: optionId,
       label: formOptionsMapping[optionId],
     }));
+
+  const getKeyFromValue = (obj: { [key: number]: string }, value: string) =>
+    Object.keys(obj).find((key) => formOptionsMapping[parseInt(key)] === value);
+
+  // Handle Dependent field select options here
+  if (type === "dependent_select" && dependentOptionIds && parentFieldId) {
+    useEffect(() => {
+      let parentFieldValue = form[parentFieldId]?.value as string;
+      if (parentFieldValue) {
+        const parentFieldOptionId = getKeyFromValue(
+          formOptionsMapping,
+          parentFieldValue
+        );
+        if (parentFieldOptionId) {
+          const dependentFieldOptions = getOptionsForDependentField(
+            dependentOptionIds,
+            parseInt(parentFieldOptionId)
+          );
+          setOptions(dependentFieldOptions);
+        }
+      }
+    }, [form[parentFieldId]]);
   }
 
   const handleInputChange = (change: {
@@ -58,7 +87,7 @@ export const Input = ({
     value: string | string[];
   }) => {
     setError(null);
-    updateForm(change, curWindowIndex - 1);
+    updateForm(change, fieldId);
   };
 
   const handleInputSubmit = () => {
