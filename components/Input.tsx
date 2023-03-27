@@ -111,8 +111,11 @@ export const Input = ({
         {/* Replace type to be of MULTI_SELECT */}
         {type === "dependent_select" && options?.length && (
           <MultiSelectField
+            ref={inputRef}
+            fieldName={title}
             options={options}
             numSelections={numSelections}
+            handleChange={handleInputChange}
           ></MultiSelectField>
         )}
 
