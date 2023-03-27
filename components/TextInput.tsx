@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useRef } from "react";
 
 type Props = {
   title: string;
@@ -14,11 +14,17 @@ export const TextInput = forwardRef<
   Props
 >(({ title, type, handleChange }: Props, ref) => {
   const [value, setValue] = useState<string>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useImperativeHandle(ref, () => ({
     checkError: () => {
-      if (!value || value.trim().length === 0) {
-        return "Please fill this in";
+      const isValid = inputRef?.current?.validity.valid;
+      if (!isValid) {
+        if (!value || value?.trim().length === 0) {
+          return "Please fill this in";
+        } else {
+          return `Hmm... that ${type} doesn't look right`;
+        }
       }
       return "";
     },
@@ -36,7 +42,7 @@ export const TextInput = forwardRef<
 
   return (
     <TextField
-      inputRef={ref}
+      inputRef={inputRef}
       name={title}
       required
       fullWidth
