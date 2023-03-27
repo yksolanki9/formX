@@ -1,4 +1,3 @@
-import { TextInputRef } from "@/models/text-input-ref.model";
 import TextField from "@mui/material/TextField";
 import { useState, forwardRef, useImperativeHandle } from "react";
 
@@ -6,7 +5,6 @@ type Props = {
   title: string;
   type: string;
   handleChange: (change: { label: string; value: string | string[] }) => void;
-  handleError?: (message: string | null) => void;
 };
 
 export const TextInput = forwardRef<
@@ -14,7 +12,7 @@ export const TextInput = forwardRef<
     checkError: () => string;
   },
   Props
->(({ title, type, handleChange, handleError }: Props, ref) => {
+>(({ title, type, handleChange }: Props, ref) => {
   const [value, setValue] = useState<string>();
 
   useImperativeHandle(ref, () => ({
@@ -27,7 +25,6 @@ export const TextInput = forwardRef<
   }));
 
   const OnValueChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // onChange();
     const updatedValue = event.target.value;
     setValue(updatedValue);
 
@@ -35,16 +32,7 @@ export const TextInput = forwardRef<
       label: event.target.name,
       value: updatedValue,
     });
-
-    // updateForm(
-    //   { label: event.target.name, value: event.target.value },
-    //   curWindowIndex - 1
-    // );
-
-    // handleBlur();
   };
-
-  // const handleBlur = () => {};
 
   return (
     <TextField
@@ -62,8 +50,6 @@ export const TextInput = forwardRef<
         className: "text-3xl text-white placeholder:font-thin",
       }}
       onChange={OnValueChanged}
-      // onError={() => console.log("ERRROR")}
-      // onBlur={handleBlur}
     />
   );
 });

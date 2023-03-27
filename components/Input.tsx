@@ -35,7 +35,6 @@ export const Input = ({
   updateForm,
 }: Props) => {
   const [error, setError] = useState<string | null>();
-  const [showError, setShowError] = useState<boolean>(true);
 
   let options: Option[] = [];
   if (type === "select" && optionIds?.length) {
@@ -54,28 +53,21 @@ export const Input = ({
     }));
   }
 
-  const handleInputError = (errorMessage: string | null) => {
-    console.log("ERROR", errorMessage);
-    setError(errorMessage);
-  };
-
   const handleInputChange = (change: {
     label: string;
     value: string | string[];
   }) => {
-    setShowError(false);
+    setError(null);
     updateForm(change, curWindowIndex - 1);
   };
 
-  const onCtaClicked = () => {
-    const newError = inputRef?.current?.checkError();
-    setError(newError);
-    // console.log("ERROR IS", newError);
-    // if (error) {
-    //   setShowError(true);
-    // } else {
-    //   scrollToNextWindow(curWindowIndex);
-    // }
+  const handleInputSubmit = () => {
+    const errorMsg = inputRef?.current?.checkError();
+    if (errorMsg) {
+      setError(errorMsg);
+    } else {
+      scrollToNextWindow(curWindowIndex);
+    }
   };
 
   useEffect(() => {
@@ -104,12 +96,11 @@ export const Input = ({
             title={title}
             type={subtype || type}
             handleChange={handleInputChange}
-            // handleError={handleInputError}
           ></TextInput>
         )}
 
         {type === "select" && options?.length && (
-          <SelectField fieldName={title} options={options}></SelectField>
+          <SelectField options={options}></SelectField>
         )}
 
         {/* Replace type to be of MULTI_SELECT */}
@@ -120,15 +111,15 @@ export const Input = ({
           ></MultiSelectField>
         )}
 
-        {showError && error && <Error error={error} />}
+        {error && <Error error={error} />}
 
-        {/* {!showError && ( */}
-        <NavButton
-          onCtaClicked={onCtaClicked}
-          buttonType={buttonType}
-          inputType={type}
-        />
-        {/* )} */}
+        {!error && (
+          <NavButton
+            onInputSubmit={handleInputSubmit}
+            buttonType={buttonType}
+            inputType={type}
+          />
+        )}
       </div>
     </div>
   );
