@@ -100,7 +100,12 @@ export const Input = ({
         )}
 
         {type === "select" && options?.length && (
-          <SelectField options={options}></SelectField>
+          <SelectField
+            ref={inputRef}
+            fieldName={title}
+            options={options}
+            handleChange={handleInputChange}
+          ></SelectField>
         )}
 
         {/* Replace type to be of MULTI_SELECT */}

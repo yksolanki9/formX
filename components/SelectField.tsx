@@ -1,20 +1,38 @@
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { FormControl, FormLabel } from "@mui/material";
 import { Option } from "@/models/option.model";
 import { SelectOption } from "./SelectOption";
 
 type Props = {
   options: Option[];
+  fieldName: string;
+  handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
-export const SelectField = ({ options }: Props) => {
+export const SelectField = forwardRef<
+  {
+    checkError: () => string;
+  },
+  Props
+>(({ options, fieldName, handleChange }: Props, ref) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  // const [submitted, setSubmitted] = useState(false);
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
-    // setSubmitted(true);
+    handleChange({
+      label: fieldName,
+      value: option,
+    });
   };
+
+  useImperativeHandle(ref, () => ({
+    checkError: () => {
+      if (!selectedOption) {
+        return "Oops! Please make a selection";
+      }
+      return "";
+    },
+  }));
 
   //Create object with a letter as id and label
   const optionWithCharIds = options.map((option, index) => ({
@@ -38,7 +56,6 @@ export const SelectField = ({ options }: Props) => {
           ))}
         </div>
       </FormControl>
-      {/* <div>{submitted && <p>You selected {selectedOption}.</p>}</div> */}
     </>
   );
-};
+});
