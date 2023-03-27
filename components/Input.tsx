@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import { FormField } from "@/models/form-field.model";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Error } from "@/components/Error";
 import { NavButton } from "@/components/NavButton";
 import { SelectField } from "@/components/SelectField";
@@ -11,6 +11,7 @@ import { MultiSelectField } from "./MultiSelectField";
 type Props = FormField & {
   scrollToNextWindow: (index: number) => void;
   curWindowIndex: number;
+  allowScroll: (scroll: boolean) => void;
 };
 
 export const Input = ({
@@ -25,6 +26,7 @@ export const Input = ({
   dependentOptionIds,
   scrollToNextWindow,
   curWindowIndex,
+  allowScroll,
 }: Props) => {
   const [value, setValue] = useState<string>();
   const [error, setError] = useState<string | null>();
@@ -58,6 +60,10 @@ export const Input = ({
       setError(null);
     }
   };
+
+  useEffect(() => {
+    allowScroll(!error);
+  }, [error]);
 
   const onCtaClicked = () => scrollToNextWindow(curWindowIndex);
 

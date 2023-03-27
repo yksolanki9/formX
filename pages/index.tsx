@@ -12,6 +12,7 @@ function submit() {
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
+  const [scroll, setScroll] = useState<boolean>(true);
 
   const windowRefs: MutableRefObject<HTMLDivElement>[] = [];
   for (let i = 0; i <= formInputs.length; i++) {
@@ -39,7 +40,7 @@ export default function Home() {
       {loading ? (
         <Loading />
       ) : (
-        <Layout>
+        <Layout scroll={scroll}>
           <div ref={windowRefs[0]}>
             <About
               curWindowIndex={0}
@@ -53,6 +54,7 @@ export default function Home() {
                 <Input
                   curWindowIndex={index + 1}
                   scrollToNextWindow={scrollToNextWindow}
+                  allowScroll={setScroll}
                   {...formInput}
                 />
               </div>
