@@ -3,16 +3,22 @@ import { Input } from "@/components/Input";
 import { formInputs } from "@/data/form-inputs";
 import { about } from "@/data/about";
 import { Layout } from "@/components/Layout";
-import { MutableRefObject, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/Loading";
 
 function submit() {
   console.log("submit form");
 }
 
+type FormOption = {
+  label: string;
+  value: string | string[];
+};
+
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [scroll, setScroll] = useState<boolean>(true);
+  const [formState, setFormState] = useState<any[]>([]);
 
   const windowRefs: MutableRefObject<HTMLDivElement>[] = [];
   for (let i = 0; i <= formInputs.length; i++) {
@@ -35,6 +41,16 @@ export default function Home() {
     });
   };
 
+  const updateFormState = (change: FormOption, index: number) => {
+    const updatedFormState = formState;
+    updatedFormState[index] = change;
+    setFormState(updatedFormState);
+    console.log("UPDATEFORMSTATE", updatedFormState);
+    console.log("formState", formState);
+  };
+
+  useEffect(() => console.log("PARENT FORM", formState), [formState]);
+
   return (
     <>
       {loading ? (
@@ -55,6 +71,7 @@ export default function Home() {
                   curWindowIndex={index + 1}
                   scrollToNextWindow={scrollToNextWindow}
                   allowScroll={setScroll}
+                  updateForm={updateFormState}
                   {...formInput}
                 />
               </div>
