@@ -133,6 +133,7 @@ export const Input = ({
 
         {type === "dropdown" && (
           <Dropdown
+            ref={inputRef}
             fieldName={title}
             options={options}
             mandatory={mandatory}

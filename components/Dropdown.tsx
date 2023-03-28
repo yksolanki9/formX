@@ -1,10 +1,10 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { Option } from "@/models/option.model";
-import { SelectOption } from "./SelectOption";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ClearIcon from "@mui/icons-material/Clear";
+import { DropdownOption } from "./DropdownOption";
 
 type Props = {
   options: Option[];
@@ -13,39 +13,39 @@ type Props = {
   handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
-export const Dropdown = ({
-  options,
-  fieldName,
-  mandatory,
-  handleChange,
-}: Props) => {
+export const Dropdown = forwardRef<
+  {
+    checkError: () => string;
+  },
+  Props
+>(({ options, fieldName, mandatory, handleChange }: Props, ref) => {
   const [selectedOption, setSelectedOption] = useState<string>();
 
   const handleOptionClick = (option: string) => {
     setSelectedOption(option);
     handleChange({
       label: fieldName,
-      value: option,
+      value: option || "",
     });
   };
 
-  const [open, setOpen] = useState(true);
-  const closePopper = () => setOpen(true);
-  const openPopper = () => setOpen(true);
+  useImperativeHandle(ref, () => ({
+    checkError: () => {
+      if (!selectedOption && mandatory) {
+        return "Oops! Please make a selection";
+      }
+      return "";
+    },
+  }));
+
   return (
     <>
       <Autocomplete
-        // value={selectedOption}
         options={options}
-        // open={open}
-        // onOpen={openPopper}
-        // onClose={closePopper}
-        // id="auto-complete"
-        // autoComplete
-        // disableCloseOnSelect
-        // onChange={handleChange}
+        onChange={(_, value: Option | null) =>
+          handleOptionClick(value?.label || "")
+        }
         getOptionLabel={(option) => option.label}
-        clearOnBlur={false}
         popupIcon={<ExpandMoreIcon color="info" />}
         clearIcon={<ClearIcon color="info" />}
         renderInput={(params) => (
@@ -64,16 +64,14 @@ export const Dropdown = ({
         )}
         renderOption={(props, option) => (
           <li {...props}>
-            <SelectOption
+            <DropdownOption
               {...props}
-              showId={false}
               label={option.label}
               selected={option.label === selectedOption}
-              onOptionSelected={handleOptionClick}
             />
           </li>
         )}
       />
     </>
   );
-};
+});

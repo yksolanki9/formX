@@ -139,3 +139,7 @@ a {
 .MuiAutocomplete-option {
   padding: 0 !important;
 }
+
+.MuiAutocomplete-noOptions{
+  display: none;
+}
