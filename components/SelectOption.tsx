@@ -34,7 +34,7 @@ export const SelectOption = ({
   return (
     <div
       ref={label === "Other" ? otherOptionRef : null}
-      className={`flex items-center bg-white/10 hover:bg-white/30 rounded-[3px] h-10 mt-2 cursor-pointer ${
+      className={`flex items-center bg-white/10 hover:bg-white/30 rounded-[3px] h-fit mt-2 cursor-pointer py-1 ${
         selected ? "shadow-btn-selected" : "shadow-btn"
       }`}
       onClick={() => onOptionClicked(label)}
@@ -49,7 +49,7 @@ export const SelectOption = ({
       >
         <strong>{id}</strong>
       </div>
-      <div id="label" className="text-xl">
+      <div id="label" className="sm:text-xl text-base">
         {label}
       </div>
       <div className={`ml-auto px-4 ${selected ? "visible" : "invisible"}`}>

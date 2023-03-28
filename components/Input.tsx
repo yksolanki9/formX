@@ -32,7 +32,6 @@ export const Input = ({
   subtype,
   mandatory,
   numSelections,
-  buttonType,
   optionIds,
   dependentOptionIds,
   scrollToNextWindow,
@@ -122,10 +121,10 @@ export const Input = ({
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
       <div>
-        <div className="text-2xl">
+        <div className="sm:text-2xl text-xl">
           {question} {mandatory && <span>*</span>}
         </div>
-        <div className="text-xl opacity-70 mt-2">{subtitle}</div>
+        <div className="sm:text-xl text-base opacity-70 mt-2">{subtitle}</div>
         {type === "text" && (
           <TextInput
             ref={inputRef}

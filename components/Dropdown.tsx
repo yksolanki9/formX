@@ -58,7 +58,7 @@ export const Dropdown = forwardRef<
             className="mt-8 border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
             inputProps={{
               ...params.inputProps,
-              className: "text-3xl text-white placeholder:font-thin",
+              className: "sm:text-3xl text-xl text-white placeholder:font-thin",
             }}
           />
         )}

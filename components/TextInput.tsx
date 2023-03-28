@@ -41,6 +41,9 @@ export const TextInput = forwardRef<
     });
   };
 
+  const placeholder =
+    type === "email" ? "name@example.com" : "Type your answer here...";
+
   return (
     <TextField
       inputRef={inputRef}
@@ -48,13 +51,13 @@ export const TextInput = forwardRef<
       required={mandatory}
       fullWidth
       id="standard-required"
-      placeholder="Type your answer here"
+      placeholder={placeholder}
       variant="standard"
       color="info"
       type={type}
-      className="mt-8 border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
+      className="sm:mt-8 mt-4 border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
       inputProps={{
-        className: "text-3xl text-white placeholder:font-thin",
+        className: "sm:text-3xl text-2xl text-white placeholder:font-thin",
       }}
       onChange={OnValueChanged}
     />

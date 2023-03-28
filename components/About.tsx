@@ -24,8 +24,8 @@ export const About = ({
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
       <div>
-        <div className="text-2xl">{title}</div>
-        <div className="text-xl opacity-70">
+        <div className="sm:text-2xl text-xl">{title}</div>
+        <div className="sm:text-xl text-base opacity-70">
           <div className="mt-2">{subtitle}</div>
           <div className="mt-8">{listHeader}</div>
           {listItems.map((listItem, index) => (

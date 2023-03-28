@@ -1,4 +1,4 @@
-//TODO: Create enum for type, subtype, buttonType
+//TODO: Create enum for type, subtype
 
 export interface FormField {
   id: number;
@@ -8,7 +8,6 @@ export interface FormField {
   subtype?: "email" | "password" | "tel";
   mandatory: boolean;
   numSelections?: number;
-  buttonType?: "submit" | "button";
   optionIds?: number[];
   parentFieldId?: number;
   dependentOptionIds?: { [key: number]: number[] };
