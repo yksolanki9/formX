@@ -5,7 +5,7 @@ export interface FormField {
   title: string;
   subtitle?: string;
   type: "text" | "select" | "dependent_select" | "dropdown" | "number";
-  subtype?: "email" | "password" | "mobile";
+  subtype?: "email" | "password" | "tel";
   mandatory: boolean;
   numSelections?: number;
   buttonType?: "submit" | "button";

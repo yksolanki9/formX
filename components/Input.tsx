@@ -134,7 +134,15 @@ export const Input = ({
           ></TextInput>
         )}
 
-        {type === "number" && subtype === "mobile" && <MobileNumberField />}
+        {type === "number" && subtype === "tel" && (
+          <MobileNumberField
+            ref={inputRef}
+            title={title}
+            type={subtype || type}
+            mandatory={mandatory}
+            handleChange={handleInputChange}
+          />
+        )}
 
         {type === "dropdown" && (
           <Dropdown

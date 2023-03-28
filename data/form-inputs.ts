@@ -71,7 +71,7 @@ export const formInputs: FormField[] = [
     subtitle:
       "We won't call you unless it is absolutely required to process your application.",
     type: "number",
-    subtype: "mobile",
+    subtype: "tel",
     mandatory: true,
   },
 ];
