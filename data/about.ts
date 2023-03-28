@@ -1,4 +1,4 @@
-export const about = {
+export const aboutData = {
   title: "Up-skilling requires time commitment",
   subtitle:
     "Our experience is designed by keeping in mind the working hours founders & full time operators typically work in.",

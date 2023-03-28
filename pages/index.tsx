@@ -1,11 +1,13 @@
 import { About } from "@/components/About";
 import { Input } from "@/components/Input";
 import { formInputs } from "@/data/form-inputs";
-import { about } from "@/data/about";
+import { aboutData } from "@/data/about";
 import { Layout } from "@/components/Layout";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/Loading";
 import { Form } from "@/models/form.model";
+import { Success } from "@/components/Success";
+import { successData } from "@/data/success";
 
 type FormOption = {
   label: string;
@@ -16,7 +18,8 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [scroll, setScroll] = useState<boolean>(true);
   const [formState, setFormState] = useState<Form>({});
-  const [isMobile, setIsMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState<boolean>(true);
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
@@ -29,7 +32,9 @@ export default function Home() {
 
   setTimeout(() => setLoading(false), 1200);
 
-  const submitForm = () => {
+  const submitForm = (event: any) => {
+    event.preventDefault();
+    setFormSubmitted(true);
     console.log("SUBMIT FORM", formState);
   };
 
@@ -55,30 +60,35 @@ export default function Home() {
         <Loading />
       ) : (
         <Layout scroll={scroll}>
-          <div ref={windowRefs[0]}>
-            <About
-              curWindowIndex={0}
-              scrollToNextWindow={scrollToNextWindow}
-              isMobile={isMobile}
-              {...about}
-            />
-          </div>
-          <form onSubmit={submitForm}>
-            {formInputs.map((formInput, index) => (
-              <div key={index} ref={windowRefs[index + 1]}>
-                <Input
-                  form={formState}
-                  curWindowIndex={index + 1}
+          {!formSubmitted && (
+            <>
+              <div ref={windowRefs[0]}>
+                <About
+                  curWindowIndex={0}
                   scrollToNextWindow={scrollToNextWindow}
-                  allowScroll={setScroll}
-                  updateForm={updateFormState}
-                  numInputs={formInputs.length}
                   isMobile={isMobile}
-                  {...formInput}
+                  {...aboutData}
                 />
               </div>
-            ))}
-          </form>
+              <form onSubmit={submitForm}>
+                {formInputs.map((formInput, index) => (
+                  <div key={index} ref={windowRefs[index + 1]}>
+                    <Input
+                      form={formState}
+                      curWindowIndex={index + 1}
+                      scrollToNextWindow={scrollToNextWindow}
+                      allowScroll={setScroll}
+                      updateForm={updateFormState}
+                      numInputs={formInputs.length}
+                      isMobile={isMobile}
+                      {...formInput}
+                    />
+                  </div>
+                ))}
+              </form>
+            </>
+          )}
+          {formSubmitted && <Success {...successData} />}
         </Layout>
       )}
     </>
