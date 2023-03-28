@@ -3,12 +3,13 @@ import { useEffect, useRef, useState } from "react";
 import { Error } from "@/components/Error";
 import { NavButton } from "@/components/NavButton";
 import { SelectField } from "@/components/SelectField";
-import { formOptionsMapping } from "@/data/form-inputs";
+import { formOptionsMapping } from "@/data/form-options-mapping";
 import { Option } from "@/models/option.model";
 import { MultiSelectField } from "./MultiSelectField";
 import { TextInput } from "./TextInput";
 import { TextInputRef } from "@/models/text-input-ref.model";
 import { Form } from "@/models/form.model";
+import { Dropdown } from "./Dropdown";
 
 type Props = FormField & {
   scrollToNextWindow: (index: number) => void;
@@ -50,7 +51,7 @@ export const Input = ({
     }
   );
 
-  if (type === "select" && optionIds?.length) {
+  if ((type === "select" || type === "dropdown") && optionIds?.length) {
     const optionsForSelectField = optionIds.map((optionId) => ({
       id: optionId,
       label: formOptionsMapping[optionId],
@@ -116,13 +117,6 @@ export const Input = ({
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
       <div>
-        {/*TODO: Add a number to the left of the title */}
-        {/* <div>
-          <div>
-          <span>1</span>
-          <ArrowForwardIcon />
-          </div>
-        </div> */}
         <div className="text-2xl">
           {question} {mandatory && <span>*</span>}
         </div>
@@ -135,6 +129,14 @@ export const Input = ({
             mandatory={mandatory}
             handleChange={handleInputChange}
           ></TextInput>
+        )}
+
+        {type === "dropdown" && (
+          <Dropdown
+            fieldName={title}
+            options={options}
+            mandatory={mandatory}
+          ></Dropdown>
         )}
 
         {type === "select" && options?.length && (

@@ -2,9 +2,10 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useRef } from "react";
 
 type Props = {
-  id: string;
+  id?: string;
   label: string;
   selected: boolean;
+  showId?: boolean;
   onOptionSelected: (option: any) => void;
 };
 
@@ -13,6 +14,7 @@ export const SelectOption = ({
   label,
   selected,
   onOptionSelected,
+  showId = true,
 }: Props) => {
   const otherOptionRef = useRef<HTMLDivElement>(null);
 
@@ -39,17 +41,19 @@ export const SelectOption = ({
       }`}
       onClick={() => onOptionClicked(label)}
     >
-      <div
-        className={`flex justify-center items-center p-1 mx-2 my-1 w-6 border border-solid rounded-[3px] text-xs 
+      {showId && (
+        <div
+          className={`flex justify-center items-center p-1 mx-2 my-1 w-6 border border-solid rounded-[3px] text-xs 
           ${
             selected
               ? "text-black bg-white border-white"
               : "border-white/60 bg-black"
           }`}
-      >
-        <strong>{id}</strong>
-      </div>
-      <div id="label" className="text-xl">
+        >
+          <strong>{id}</strong>
+        </div>
+      )}
+      <div id="label" className={`text-xl ${!showId ? "mx-3" : ""}`}>
         {label}
       </div>
       <div className={`ml-auto px-4 ${selected ? "visible" : "invisible"}`}>
