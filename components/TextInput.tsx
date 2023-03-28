@@ -4,6 +4,7 @@ import { useState, forwardRef, useImperativeHandle, useRef } from "react";
 type Props = {
   title: string;
   type: string;
+  mandatory: boolean;
   handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
@@ -12,7 +13,7 @@ export const TextInput = forwardRef<
     checkError: () => string;
   },
   Props
->(({ title, type, handleChange }: Props, ref) => {
+>(({ title, type, handleChange, mandatory }: Props, ref) => {
   const [value, setValue] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -44,7 +45,7 @@ export const TextInput = forwardRef<
     <TextField
       inputRef={inputRef}
       name={title}
-      required
+      required={mandatory}
       fullWidth
       id="standard-required"
       placeholder="Type your answer here"

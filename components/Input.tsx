@@ -132,6 +132,7 @@ export const Input = ({
             ref={inputRef}
             title={title}
             type={subtype || type}
+            mandatory={mandatory}
             handleChange={handleInputChange}
           ></TextInput>
         )}
@@ -141,6 +142,7 @@ export const Input = ({
             ref={inputRef}
             fieldName={title}
             options={options}
+            mandatory={mandatory}
             handleChange={handleInputChange}
           ></SelectField>
         )}
@@ -152,6 +154,7 @@ export const Input = ({
             fieldName={title}
             options={options}
             numSelections={numSelections}
+            mandatory={mandatory}
             handleChange={handleInputChange}
           ></MultiSelectField>
         )}

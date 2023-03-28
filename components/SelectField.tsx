@@ -6,6 +6,7 @@ import { SelectOption } from "./SelectOption";
 type Props = {
   options: Option[];
   fieldName: string;
+  mandatory: boolean;
   handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
@@ -14,7 +15,7 @@ export const SelectField = forwardRef<
     checkError: () => string;
   },
   Props
->(({ options, fieldName, handleChange }: Props, ref) => {
+>(({ options, fieldName, handleChange, mandatory }: Props, ref) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleOptionClick = (option: string) => {
@@ -27,7 +28,7 @@ export const SelectField = forwardRef<
 
   useImperativeHandle(ref, () => ({
     checkError: () => {
-      if (!selectedOption) {
+      if (!selectedOption && mandatory) {
         return "Oops! Please make a selection";
       }
       return "";
