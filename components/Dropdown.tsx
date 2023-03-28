@@ -1,46 +1,58 @@
 import Autocomplete from "@mui/material/Autocomplete";
-import { SelectChangeEvent } from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { Option } from "@/models/option.model";
 import { SelectOption } from "./SelectOption";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ClearIcon from "@mui/icons-material/Clear";
 
 type Props = {
   options: Option[];
   fieldName: string;
   mandatory: boolean;
-  handleChange?: (change: { label: string; value: string | string[] }) => void;
+  handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
-export const Dropdown = ({ options, fieldName, mandatory }: Props) => {
-  const [age, setAge] = useState("");
+export const Dropdown = ({
+  options,
+  fieldName,
+  mandatory,
+  handleChange,
+}: Props) => {
+  const [selectedOption, setSelectedOption] = useState<string>();
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+  const handleOptionClick = (option: string) => {
+    setSelectedOption(option);
+    handleChange({
+      label: fieldName,
+      value: option,
+    });
   };
+
   const [open, setOpen] = useState(true);
   const closePopper = () => setOpen(true);
   const openPopper = () => setOpen(true);
   return (
     <>
-      {/* <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}> */}
-      {/* <InputLabel id="demo-simple-select-standard-label">Age</InputLabel> */}
       <Autocomplete
+        // value={selectedOption}
         options={options}
-        open={open}
-        onOpen={openPopper}
-        onClose={closePopper}
-        id="auto-complete"
-        autoComplete
-        disableCloseOnSelect
+        // open={open}
+        // onOpen={openPopper}
+        // onClose={closePopper}
+        // id="auto-complete"
+        // autoComplete
+        // disableCloseOnSelect
+        // onChange={handleChange}
+        getOptionLabel={(option) => option.label}
         clearOnBlur={false}
-        placeholder="Type or select an option"
+        popupIcon={<ExpandMoreIcon color="info" />}
+        clearIcon={<ClearIcon color="info" />}
         renderInput={(params) => (
           <TextField
             {...params}
-            // label="autoComplete"
             fullWidth
-            // placeholder="Type or select an option"
+            placeholder="Type or select an option"
             variant="standard"
             color="info"
             className="mt-8 border-b border-slate-600 border-solid focus:border-b-2 focus:border-white "
@@ -51,35 +63,17 @@ export const Dropdown = ({ options, fieldName, mandatory }: Props) => {
           />
         )}
         renderOption={(props, option) => (
-          <SelectOption
-            showId={false}
-            label={option.label}
-            selected={false}
-            onOptionSelected={() => {}}
-          />
+          <li {...props}>
+            <SelectOption
+              {...props}
+              showId={false}
+              label={option.label}
+              selected={option.label === selectedOption}
+              onOptionSelected={handleOptionClick}
+            />
+          </li>
         )}
       />
-      {/* <Select
-        variant="standard"
-        labelId="demo-simple-select-standard-label"
-        id="demo-simple-select-standard"
-        value={age}
-        onChange={handleChange}
-        label="Age"
-        color="info"
-        displayEmpty
-        renderValue={age !== "" ? undefined : () => "placeholder text"}
-        placeholder="Type or select an option"
-        className="mt-8 w-full border-b border-b-slate-600 border-solid focus:border-b-2 focus:border-white "
-      >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
-      </Select> */}
-      {/* </FormControl> */}
     </>
   );
 };

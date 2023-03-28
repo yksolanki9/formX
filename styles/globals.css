@@ -133,4 +133,9 @@ a {
 .MuiAutocomplete-listbox {
   background: black;
   color: white;
+  padding: 0;
+}
+
+.MuiAutocomplete-option {
+  padding: 0 !important;
 }

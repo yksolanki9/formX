@@ -36,9 +36,9 @@ export const SelectOption = ({
   return (
     <div
       ref={label === "Other" ? otherOptionRef : null}
-      className={`flex items-center bg-white/10 hover:bg-white/30 rounded-[3px] h-10 mt-2 ${
+      className={`flex items-center bg-white/10 hover:bg-white/30 rounded-[3px] h-10 mt-2 cursor-pointer ${
         selected ? "shadow-btn-selected" : "shadow-btn"
-      }`}
+      } ${!showId ? "w-full" : ""}`}
       onClick={() => onOptionClicked(label)}
     >
       {showId && (

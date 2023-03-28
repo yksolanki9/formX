@@ -8,7 +8,7 @@ import { Loading } from "@/components/Loading";
 import { Form } from "@/models/form.model";
 
 function submit() {
-  console.log("submit form");
+  // console.log("submit form");
 }
 
 type FormOption = {
@@ -47,10 +47,7 @@ export default function Home() {
     updatedFormState[index] = change;
     setFormState(updatedFormState);
     console.log("UPDATEFORMSTATE", updatedFormState);
-    console.log("formState", formState);
   };
-
-  useEffect(() => console.log("PARENT FORM", formState), [formState]);
 
   return (
     <>

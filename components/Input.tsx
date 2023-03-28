@@ -136,6 +136,7 @@ export const Input = ({
             fieldName={title}
             options={options}
             mandatory={mandatory}
+            handleChange={handleInputChange}
           ></Dropdown>
         )}
 
