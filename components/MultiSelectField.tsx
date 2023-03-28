@@ -53,7 +53,7 @@ export const MultiSelectField = forwardRef<
     }));
 
     //Create object with a letter as id and label
-    const optionWithCharIds = options.map((option, index) => ({
+    const optionsWithCharId = options.map((option, index) => ({
       label: option.label,
       charId: String.fromCharCode(65 + index),
     }));
@@ -62,27 +62,29 @@ export const MultiSelectField = forwardRef<
       <>
         <FormControl component="fieldset">
           <FormLabel component="legend">Label</FormLabel>
-          <div>
-            <div
-              className={`text-sm ${
-                remainingSelections > 0 ? "visible" : "invisible"
-              }`}
-            >
-              Choose {remainingSelections}
-              {numSelections > remainingSelections ? " more" : ""}
+          {optionsWithCharId?.length && (
+            <div>
+              <div
+                className={`text-sm ${
+                  remainingSelections > 0 ? "visible" : "invisible"
+                }`}
+              >
+                Choose {remainingSelections}
+                {numSelections > remainingSelections ? " more" : ""}
+              </div>
+              <div className="mt-1">
+                {optionsWithCharId.map(({ charId, label }) => (
+                  <SelectOption
+                    key={charId}
+                    id={charId}
+                    label={label}
+                    selected={selectedOptions.includes(label)}
+                    onOptionSelected={handleOptionClick}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="mt-1">
-              {optionWithCharIds.map(({ charId, label }) => (
-                <SelectOption
-                  key={charId}
-                  id={charId}
-                  label={label}
-                  selected={selectedOptions.includes(label)}
-                  onOptionSelected={handleOptionClick}
-                />
-              ))}
-            </div>
-          </div>
+          )}
         </FormControl>
       </>
     );

@@ -121,3 +121,16 @@ a {
 .MuiLinearProgress-barColorPrimary {
   background-color: white;
 }
+
+.MuiSelect-standard {
+  color: white;
+}
+
+.MuiAutocomplete-popper {
+  background: black;
+}
+
+.MuiAutocomplete-listbox {
+  background: black;
+  color: white;
+}
