@@ -22,7 +22,7 @@ export const formInputs: FormField[] = [
   },
   {
     id: 2,
-    title: "and your last name, <name>?",
+    title: "and your last name, {FORMX-1}?",
     type: "text",
     mandatory: true,
   },
@@ -43,7 +43,7 @@ export const formInputs: FormField[] = [
   },
   {
     id: 5,
-    title: "<name>, what's your professional goal for the next 12 months?",
+    title: "{FORMX-1}, what's your professional goal for the next 12 months?",
     type: "dependent_select",
     numSelections: 2,
     mandatory: true,

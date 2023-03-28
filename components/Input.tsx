@@ -42,6 +42,14 @@ export const Input = ({
   const [error, setError] = useState<string | null>();
   const [options, setOptions] = useState<Option[]>([]);
 
+  //Replace {FORMX-<questionId>} with the value of the question
+  const question = title.replace(
+    /\{FORMX-([^}]+?)\}/g,
+    (match: string, questionId: string) => {
+      return (form[parseInt(questionId)]?.value as string) || "";
+    }
+  );
+
   if (type === "select" && optionIds?.length) {
     const optionsForSelectField = optionIds.map((optionId) => ({
       id: optionId,
@@ -116,7 +124,7 @@ export const Input = ({
           </div>
         </div> */}
         <div className="text-2xl">
-          {title} {mandatory && <span>*</span>}
+          {question} {mandatory && <span>*</span>}
         </div>
         <div className="text-xl opacity-70 mt-2">{subtitle}</div>
         {type === "text" && (
