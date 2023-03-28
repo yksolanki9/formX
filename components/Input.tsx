@@ -22,6 +22,7 @@ type Props = FormField & {
   ) => void;
   form: Form;
   numInputs: number;
+  isMobile: boolean;
 };
 
 export const Input = ({
@@ -42,6 +43,7 @@ export const Input = ({
   parentFieldId,
   id: fieldId,
   numInputs,
+  isMobile = true,
 }: Props) => {
   const [error, setError] = useState<string | null>();
   const [options, setOptions] = useState<Option[]>([]);
@@ -183,6 +185,7 @@ export const Input = ({
             onInputSubmit={handleInputSubmit}
             submitButton={curWindowIndex === numInputs}
             inputType={type}
+            isMobile={isMobile}
           />
         )}
       </div>

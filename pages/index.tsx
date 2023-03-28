@@ -20,6 +20,11 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [scroll, setScroll] = useState<boolean>(true);
   const [formState, setFormState] = useState<Form>({});
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+  }, []);
 
   const windowRefs: MutableRefObject<HTMLDivElement>[] = [];
   for (let i = 0; i <= formInputs.length; i++) {
@@ -59,6 +64,7 @@ export default function Home() {
             <About
               curWindowIndex={0}
               scrollToNextWindow={scrollToNextWindow}
+              isMobile={isMobile}
               {...about}
             />
           </div>
@@ -72,6 +78,7 @@ export default function Home() {
                   allowScroll={setScroll}
                   updateForm={updateFormState}
                   numInputs={formInputs.length}
+                  isMobile={isMobile}
                   {...formInput}
                 />
               </div>

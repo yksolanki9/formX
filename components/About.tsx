@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 type Props = AboutProps & {
   scrollToNextWindow: (index: number) => void;
   curWindowIndex: number;
+  isMobile: boolean;
 };
 
 export const About = ({
@@ -14,6 +15,7 @@ export const About = ({
   action,
   scrollToNextWindow,
   curWindowIndex,
+  isMobile = true,
 }: Props) => {
   const handleClick = () => {
     scrollToNextWindow(curWindowIndex);
@@ -38,9 +40,11 @@ export const About = ({
           >
             {action}
           </Button>
-          <span className="text-xs pl-4">
-            press <strong>Enter ↵ </strong>
-          </span>
+          {!isMobile && (
+            <span className="text-xs pl-4">
+              press <strong>Enter ↵ </strong>
+            </span>
+          )}
         </div>
       </div>
     </div>
