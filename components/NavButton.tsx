@@ -2,25 +2,30 @@ import Button from "@mui/material/Button";
 import DoneIcon from "@mui/icons-material/Done";
 
 type Props = {
-  buttonType?: "submit" | "button";
-  inputType: "text" | "select" | "dropdown" | "dependent_select";
+  submitButton?: boolean;
+  inputType: "text" | "select" | "dropdown" | "dependent_select" | "number";
   onInputSubmit: () => void;
 };
 
-export const NavButton = ({ buttonType, inputType, onInputSubmit }: Props) => {
+export const NavButton = ({
+  inputType,
+  onInputSubmit,
+  submitButton = false,
+}: Props) => {
   return (
     <div className="pt-4">
       <Button
-        type={buttonType || "button"}
         variant="contained"
-        endIcon={<DoneIcon />}
+        endIcon={!submitButton && <DoneIcon />}
         onClick={onInputSubmit}
+        className="normal-case"
       >
-        OK
+        {submitButton ? "Submit" : "OK"}
       </Button>
-      {inputType === "text" && (
+      {(inputType === "text" || inputType === "number") && (
         <span className="text-xs pl-4">
-          press <strong>Enter ↵ </strong>
+          press {submitButton && <strong>Cmd ⌘ + </strong>}
+          <strong>Enter ↵ </strong>
         </span>
       )}
     </div>

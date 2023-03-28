@@ -71,6 +71,7 @@ export default function Home() {
                   scrollToNextWindow={scrollToNextWindow}
                   allowScroll={setScroll}
                   updateForm={updateFormState}
+                  numInputs={formInputs.length}
                   {...formInput}
                 />
               </div>

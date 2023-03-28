@@ -10,6 +10,7 @@ import { TextInput } from "./TextInput";
 import { TextInputRef } from "@/models/text-input-ref.model";
 import { Form } from "@/models/form.model";
 import { Dropdown } from "./Dropdown";
+import { MobileNumberField } from "./MobileNumberField";
 
 type Props = FormField & {
   scrollToNextWindow: (index: number) => void;
@@ -20,6 +21,7 @@ type Props = FormField & {
     index: number
   ) => void;
   form: Form;
+  numInputs: number;
 };
 
 export const Input = ({
@@ -39,6 +41,7 @@ export const Input = ({
   form,
   parentFieldId,
   id: fieldId,
+  numInputs,
 }: Props) => {
   const [error, setError] = useState<string | null>();
   const [options, setOptions] = useState<Option[]>([]);
@@ -131,6 +134,8 @@ export const Input = ({
           ></TextInput>
         )}
 
+        {type === "number" && subtype === "mobile" && <MobileNumberField />}
+
         {type === "dropdown" && (
           <Dropdown
             ref={inputRef}
@@ -168,7 +173,7 @@ export const Input = ({
         {!error && (
           <NavButton
             onInputSubmit={handleInputSubmit}
-            buttonType={buttonType}
+            submitButton={curWindowIndex === numInputs}
             inputType={type}
           />
         )}

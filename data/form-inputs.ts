@@ -64,6 +64,14 @@ export const formInputs: FormField[] = [
     type: "text",
     subtype: "email",
     mandatory: true,
-    buttonType: "submit",
+  },
+  {
+    id: 7,
+    title: "Your phone number",
+    subtitle:
+      "We won't call you unless it is absolutely required to process your application.",
+    type: "number",
+    subtype: "mobile",
+    mandatory: true,
   },
 ];
