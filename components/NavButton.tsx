@@ -18,6 +18,7 @@ export const NavButton = ({
   return (
     <div className="pt-4">
       <Button
+        type={submitButton ? "submit" : "button"}
         variant="contained"
         endIcon={!submitButton && <DoneIcon />}
         onClick={onInputSubmit}

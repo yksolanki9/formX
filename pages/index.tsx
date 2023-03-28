@@ -7,10 +7,6 @@ import { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Loading } from "@/components/Loading";
 import { Form } from "@/models/form.model";
 
-function submit() {
-  // console.log("submit form");
-}
-
 type FormOption = {
   label: string;
   value: string | string[];
@@ -33,8 +29,8 @@ export default function Home() {
 
   setTimeout(() => setLoading(false), 1200);
 
-  const formChanged = (event: any) => {
-    console.log(event.target.value);
+  const submitForm = () => {
+    console.log("SUBMIT FORM", formState);
   };
 
   const scrollToNextWindow = (curIndex: number) => {
@@ -51,7 +47,6 @@ export default function Home() {
     const updatedFormState = { ...formState };
     updatedFormState[index] = change;
     setFormState(updatedFormState);
-    console.log("UPDATEFORMSTATE", updatedFormState);
   };
 
   return (
@@ -68,7 +63,7 @@ export default function Home() {
               {...about}
             />
           </div>
-          <form onChange={formChanged} onSubmit={submit}>
+          <form onSubmit={submitForm}>
             {formInputs.map((formInput, index) => (
               <div key={index} ref={windowRefs[index + 1]}>
                 <Input
