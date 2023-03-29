@@ -3,7 +3,6 @@ import TextField from "@mui/material/TextField";
 import {
   forwardRef,
   ForwardRefRenderFunction,
-  Ref,
   useImperativeHandle,
   useState,
 } from "react";
@@ -69,7 +68,7 @@ const Dropdown: ForwardRefRenderFunction<
           />
         )}
         renderOption={(props, option) => (
-          <li {...props}>
+          <li {...props} className="no-background">
             <DropdownOption
               {...props}
               label={option.label}

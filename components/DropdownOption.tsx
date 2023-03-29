@@ -1,4 +1,5 @@
 import DoneIcon from "@mui/icons-material/Done";
+import styles from "@/styles/DropdownOption.module.css";
 
 type Props = {
   label: string;
@@ -8,14 +9,14 @@ type Props = {
 export default function DropdownOption({ label, selected }: Props) {
   return (
     <div
-      className={`flex items-center bg-white/10 hover:bg-white/30 rounded-[3px] h-fit mt-2 cursor-pointer w-full py-1 ${
-        selected ? "shadow-btn-selected" : "shadow-btn"
-      }`}
+      className={
+        styles.dropdownOption + " " + (selected ? styles.selected : "")
+      }
     >
-      <div id="label" className="sm:text-xl text-base mx-3">
+      <div id="label" className={styles.label}>
         {label}
       </div>
-      <div className={`ml-auto px-4 ${selected ? "visible" : "invisible"}`}>
+      <div className={styles.icon + " " + (!selected ? styles.noIcon : "")}>
         <DoneIcon />
       </div>
     </div>
