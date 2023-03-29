@@ -8,6 +8,7 @@ import Loading from "@/components/Loading";
 import { Form } from "@/models/form.model";
 import Success from "@/components/Success";
 import { successData } from "@/data/success";
+import { debounce } from "@mui/material";
 
 type FormOption = {
   label: string;
@@ -20,6 +21,7 @@ export default function Home() {
   const [formState, setFormState] = useState<Form>({});
   const [isMobile, setIsMobile] = useState<boolean>(true);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+  const [activeWindowIndex, setActiveWindowIndex] = useState(0);
 
   const windowRefs = useRef<Array<HTMLDivElement | null>>([]);
 
@@ -44,6 +46,7 @@ export default function Home() {
   const scrollToNextWindow = (curIndex: number) => {
     const nextIndex = curIndex + 1;
     const nextRef = windowRefs?.current[nextIndex];
+    setActiveWindowIndex(nextIndex);
     nextRef?.scrollIntoView({
       behavior: "smooth",
       block: "start",
@@ -57,12 +60,63 @@ export default function Home() {
     setFormState(updatedFormState);
   };
 
+  const [scrollDirection, setScrollDirection] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const lastScrollTopRef = useRef(0);
+  const inputRef = useRef<{
+    handleInputSubmit: () => void;
+  }>(null);
+
+  const handleScroll = (event: any) => {
+    const { scrollTop } = event.target;
+    const direction = scrollTop > lastScrollTopRef.current ? "DOWN" : "UP";
+    setScrollDirection(direction);
+    lastScrollTopRef.current = scrollTop;
+  };
+
+  useEffect(() => {
+    if (scrollDirection === "DOWN") {
+      console.log(inputRef?.current);
+      inputRef?.current?.handleInputSubmit();
+    }
+  }, [scrollDirection]);
+  //   const options = {
+  //     root: scrollRef.current,
+  //     threshold: 1.0,
+  //   };
+
+  //   const observer = new IntersectionObserver(([entry]) => {
+  //     // console.log("ENTRY IS", entry);
+  //     if (entry.isIntersecting && prevRect) {
+  //       if (entry.boundingClientRect.top > prevRect.top) {
+  //         setScrollDirection("down");
+  //         console.log("scrolling down");
+  //       } else {
+  //         setScrollDirection("up");
+  //         console.log("scrolling up");
+  //       }
+  //     }
+  //     setPrevRect(entry.boundingClientRect);
+  //   }, options);
+
+  //   if (scrollRef?.current) {
+  //     observer.observe(scrollRef?.current);
+  //   }
+
+  //   return () => {
+  //     if (scrollRef?.current) {
+  //       observer.unobserve(scrollRef.current);
+  //     }
+  //   };
+  // }, [prevRect]);
+
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <Layout scroll={scroll}>
+        <Layout ref={scrollRef} onScroll={handleScroll} scroll={scroll}>
           {!formSubmitted && (
             <>
               <div
@@ -88,8 +142,10 @@ export default function Home() {
                     }
                   >
                     <Input
+                      ref={inputRef}
                       form={formState}
                       curWindowIndex={index + 1}
+                      activeWindowIndex={activeWindowIndex}
                       scrollToNextWindow={scrollToNextWindow}
                       allowScroll={setScroll}
                       updateForm={updateFormState}

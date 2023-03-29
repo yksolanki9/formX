@@ -1,5 +1,12 @@
 import { FormField } from "@/models/form-field.model";
-import { useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import Error from "@/components/Error";
 import NavButton from "@/components/NavButton";
 import SelectField from "@/components/SelectField";
@@ -23,27 +30,37 @@ type Props = FormField & {
   form: Form;
   numInputs: number;
   isMobile: boolean;
+  activeWindowIndex: number;
 };
 
-export default function Input({
-  title,
-  subtitle,
-  type,
-  subtype,
-  mandatory,
-  numSelections,
-  optionIds,
-  dependentOptionIds,
-  scrollToNextWindow,
-  curWindowIndex,
-  allowScroll,
-  updateForm,
-  form,
-  parentFieldId,
-  id: fieldId,
-  numInputs,
-  isMobile = true,
-}: Props) {
+const Input: ForwardRefRenderFunction<
+  {
+    handleInputSubmit: () => void;
+  },
+  Props
+> = (
+  {
+    title,
+    subtitle,
+    type,
+    subtype,
+    mandatory,
+    numSelections,
+    optionIds,
+    dependentOptionIds,
+    scrollToNextWindow,
+    curWindowIndex,
+    allowScroll,
+    updateForm,
+    form,
+    parentFieldId,
+    id: fieldId,
+    numInputs,
+    activeWindowIndex,
+    isMobile = true,
+  }: Props,
+  ref
+) => {
   const [error, setError] = useState<string | null>();
   const [options, setOptions] = useState<Option[]>([]);
 
@@ -104,6 +121,14 @@ export default function Input({
     setError(null);
     updateForm(change, fieldId);
   };
+
+  useImperativeHandle(ref, () => ({
+    handleInputSubmit: () => {
+      if (activeWindowIndex === curWindowIndex) {
+        handleInputSubmit();
+      }
+    },
+  }));
 
   const handleInputSubmit = () => {
     const errorMsg = inputRef?.current?.checkError();
@@ -193,3 +218,5 @@ export default function Input({
     </div>
   );
 };
+
+export default forwardRef(Input);
