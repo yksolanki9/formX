@@ -3,7 +3,7 @@ import Input from "@/components/Input";
 import { formInputs } from "@/data/form-inputs";
 import { aboutData } from "@/data/about";
 import Layout from "@/components/Layout";
-import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loading from "@/components/Loading";
 import { Form } from "@/models/form.model";
 import Success from "@/components/Success";
@@ -20,17 +20,18 @@ export default function Home() {
   const [formState, setFormState] = useState<Form>({});
   const [isMobile, setIsMobile] = useState<boolean>(true);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
-  const [windowRefs, setWindowRefs] =
-    useState<MutableRefObject<HTMLDivElement[]>>();
+
+  const windowRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
     setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
   }, []);
 
-  // const windowRefs: MutableRefObject<HTMLDivElement>[] = [];
-  // for (let i = 0; i <= formInputs.length; i++) {
-  //   windowRefs.push(useRef() as MutableRefObject<HTMLDivElement>);
-  // }
+  useEffect(() => {
+    if (windowRefs.current) {
+      windowRefs.current = windowRefs.current.slice(0, formInputs.length + 2);
+    }
+  }, [formInputs]);
 
   setTimeout(() => setLoading(false), 1200);
 
