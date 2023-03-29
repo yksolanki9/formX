@@ -1,4 +1,3 @@
-import TextField from "@mui/material/TextField";
 import {
   useState,
   forwardRef,
@@ -6,6 +5,7 @@ import {
   useRef,
   ForwardRefRenderFunction,
 } from "react";
+import TextField from "@mui/material/TextField";
 
 type Props = {
   title: string;
@@ -23,6 +23,19 @@ const TextInput: ForwardRefRenderFunction<
   const [value, setValue] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const placeholder =
+    type === "email" ? "name@example.com" : "Type your answer here...";
+
+  const OnValueChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedValue = event.target.value;
+    setValue(updatedValue);
+
+    handleChange({
+      label: event.target.name,
+      value: updatedValue,
+    });
+  };
+
   useImperativeHandle(ref, () => ({
     checkError: () => {
       const isValid = inputRef?.current?.validity.valid;
@@ -37,26 +50,12 @@ const TextInput: ForwardRefRenderFunction<
     },
   }));
 
-  const OnValueChanged = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedValue = event.target.value;
-    setValue(updatedValue);
-
-    handleChange({
-      label: event.target.name,
-      value: updatedValue,
-    });
-  };
-
-  const placeholder =
-    type === "email" ? "name@example.com" : "Type your answer here...";
-
   return (
     <TextField
       inputRef={inputRef}
       name={title}
       required={mandatory}
       fullWidth
-      id="standard-required"
       placeholder={placeholder}
       variant="standard"
       color="info"

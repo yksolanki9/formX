@@ -1,16 +1,17 @@
-import { FormField } from "@/models/form-field.model";
 import { useEffect, useRef, useState } from "react";
 import Error from "@/components/Error";
 import NavButton from "@/components/NavButton";
 import SelectField from "@/components/SelectField";
-import { formOptionsMapping } from "@/data/form-options-mapping";
+import MobileNumberField from "@/components/MobileNumberField";
+import MultiSelectField from "@/components/MultiSelectField";
+import TextInput from "@/components/TextInput";
+import Dropdown from "@/components/Dropdown";
+import { FormField } from "@/models/form-field.model";
 import { Option } from "@/models/option.model";
-import MultiSelectField from "./MultiSelectField";
-import TextInput from "./TextInput";
 import { TextInputRef } from "@/models/text-input-ref.model";
 import { Form } from "@/models/form.model";
-import Dropdown from "./Dropdown";
-import MobileNumberField from "./MobileNumberField";
+
+import { formOptionsMapping } from "@/data/form-options-mapping";
 
 type Props = FormField & {
   scrollToNextWindow: (index: number) => void;
@@ -46,6 +47,7 @@ export default function Input({
 }: Props) {
   const [error, setError] = useState<string | null>();
   const [options, setOptions] = useState<Option[]>([]);
+  const inputRef = useRef<TextInputRef>(null);
 
   //Replace {FORMX-<questionId>} with the value of the question
   const question = title.replace(
@@ -54,16 +56,6 @@ export default function Input({
       return (form[parseInt(questionId)]?.value as string) || "";
     }
   );
-
-  useEffect(() => {
-    if ((type === "select" || type === "dropdown") && optionIds?.length) {
-      const optionsForSelectField = optionIds.map((optionId) => ({
-        id: optionId,
-        label: formOptionsMapping[optionId],
-      }));
-      setOptions(optionsForSelectField);
-    }
-  }, [optionIds, type]);
 
   const getOptionsForDependentField = (
     dependentOptionIds: { [key: number]: number[] },
@@ -76,6 +68,33 @@ export default function Input({
 
   const getKeyFromValue = (obj: { [key: number]: string }, value: string) =>
     Object.keys(obj).find((key) => formOptionsMapping[parseInt(key)] === value);
+
+  const handleInputChange = (change: {
+    label: string;
+    value: string | string[];
+  }) => {
+    setError(null);
+    updateForm(change, fieldId);
+  };
+
+  const handleInputSubmit = () => {
+    const errorMsg = inputRef?.current?.checkError();
+    if (errorMsg) {
+      setError(errorMsg);
+    } else {
+      scrollToNextWindow(curWindowIndex);
+    }
+  };
+
+  useEffect(() => {
+    if ((type === "select" || type === "dropdown") && optionIds?.length) {
+      const optionsForSelectField = optionIds.map((optionId) => ({
+        id: optionId,
+        label: formOptionsMapping[optionId],
+      }));
+      setOptions(optionsForSelectField);
+    }
+  }, [optionIds, type]);
 
   // Handle Dependent field select options here
   useEffect(() => {
@@ -97,28 +116,9 @@ export default function Input({
     }
   }, [form, dependentOptionIds, parentFieldId, type]);
 
-  const handleInputChange = (change: {
-    label: string;
-    value: string | string[];
-  }) => {
-    setError(null);
-    updateForm(change, fieldId);
-  };
-
-  const handleInputSubmit = () => {
-    const errorMsg = inputRef?.current?.checkError();
-    if (errorMsg) {
-      setError(errorMsg);
-    } else {
-      scrollToNextWindow(curWindowIndex);
-    }
-  };
-
   useEffect(() => {
     allowScroll(!error);
   }, [error, allowScroll]);
-
-  const inputRef = useRef<TextInputRef>(null);
 
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
@@ -192,4 +192,4 @@ export default function Input({
       </div>
     </div>
   );
-};
+}

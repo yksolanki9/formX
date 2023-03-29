@@ -1,5 +1,5 @@
-import DoneIcon from "@mui/icons-material/Done";
 import { useRef } from "react";
+import DoneIcon from "@mui/icons-material/Done";
 
 type Props = {
   id?: string;
@@ -57,4 +57,4 @@ export default function SelectOption({
       </div>
     </div>
   );
-};
+}

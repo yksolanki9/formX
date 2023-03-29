@@ -1,14 +1,14 @@
-import Autocomplete from "@mui/material/Autocomplete";
-import TextField from "@mui/material/TextField";
 import {
   forwardRef,
   ForwardRefRenderFunction,
   useImperativeHandle,
   useState,
 } from "react";
-import { Option } from "@/models/option.model";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ClearIcon from "@mui/icons-material/Clear";
+import { Option } from "@/models/option.model";
 import DropdownOption from "./DropdownOption";
 
 type Props = {
@@ -43,13 +43,14 @@ const Dropdown: ForwardRefRenderFunction<
     },
   }));
 
+  const onChange = (_: any, value: Option | null) =>
+    handleOptionClick(value?.label || "");
+
   return (
     <>
       <Autocomplete
         options={options}
-        onChange={(_, value: Option | null) =>
-          handleOptionClick(value?.label || "")
-        }
+        onChange={onChange}
         getOptionLabel={(option) => option.label}
         popupIcon={<ExpandMoreIcon color="info" />}
         clearIcon={<ClearIcon color="info" />}

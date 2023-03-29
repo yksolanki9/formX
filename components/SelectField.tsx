@@ -6,7 +6,7 @@ import {
 } from "react";
 import { FormControl, FormLabel } from "@mui/material";
 import { Option } from "@/models/option.model";
-import SelectOption from "./SelectOption";
+import SelectOption from "@/components/SelectOption";
 
 type Props = {
   options: Option[];
@@ -48,20 +48,17 @@ const SelectField: ForwardRefRenderFunction<
 
   return (
     <>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Label</FormLabel>
-        <div>
-          {optionWithCharIds.map(({ charId, label }) => (
-            <SelectOption
-              key={charId}
-              id={charId}
-              label={label}
-              selected={label === selectedOption}
-              onOptionSelected={handleOptionClick}
-            />
-          ))}
-        </div>
-      </FormControl>
+      <div>
+        {optionWithCharIds.map(({ charId, label }) => (
+          <SelectOption
+            key={charId}
+            id={charId}
+            label={label}
+            selected={label === selectedOption}
+            onOptionSelected={handleOptionClick}
+          />
+        ))}
+      </div>
     </>
   );
 };

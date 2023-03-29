@@ -6,7 +6,7 @@ import {
 } from "react";
 import { FormControl, FormLabel } from "@mui/material";
 import { Option } from "@/models/option.model";
-import SelectOption from "./SelectOption";
+import SelectOption from "@/components/SelectOption";
 
 type Props = {
   fieldName: string;
@@ -64,32 +64,29 @@ const MultiSelectField: ForwardRefRenderFunction<
 
   return (
     <>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Label</FormLabel>
-        {optionsWithCharId?.length && (
-          <div>
-            <div
-              className={`text-sm ${
-                remainingSelections > 0 ? "visible" : "invisible"
-              }`}
-            >
-              Choose {remainingSelections}
-              {numSelections > remainingSelections ? " more" : ""}
-            </div>
-            <div className="mt-1">
-              {optionsWithCharId.map(({ charId, label }) => (
-                <SelectOption
-                  key={charId}
-                  id={charId}
-                  label={label}
-                  selected={selectedOptions.includes(label)}
-                  onOptionSelected={handleOptionClick}
-                />
-              ))}
-            </div>
+      {optionsWithCharId?.length && (
+        <div>
+          <div
+            className={`text-sm ${
+              remainingSelections > 0 ? "visible" : "invisible"
+            }`}
+          >
+            Choose {remainingSelections}
+            {numSelections > remainingSelections ? " more" : ""}
           </div>
-        )}
-      </FormControl>
+          <div className="mt-1">
+            {optionsWithCharId.map(({ charId, label }) => (
+              <SelectOption
+                key={charId}
+                id={charId}
+                label={label}
+                selected={selectedOptions.includes(label)}
+                onOptionSelected={handleOptionClick}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };

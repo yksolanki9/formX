@@ -1,12 +1,13 @@
+import { useEffect, useRef, useState } from "react";
+
 import About from "@/components/About";
 import Input from "@/components/Input";
+import Layout from "@/components/Layout";
+import Loading from "@/components/Loading";
+import Success from "@/components/Success";
+import { Form } from "@/models/form.model";
 import { formInputs } from "@/data/form-inputs";
 import { aboutData } from "@/data/about";
-import Layout from "@/components/Layout";
-import { useEffect, useRef, useState } from "react";
-import Loading from "@/components/Loading";
-import { Form } from "@/models/form.model";
-import Success from "@/components/Success";
 import { successData } from "@/data/success";
 
 type FormOption = {
@@ -20,19 +21,7 @@ export default function Home() {
   const [formState, setFormState] = useState<Form>({});
   const [isMobile, setIsMobile] = useState<boolean>(true);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
-
   const windowRefs = useRef<Array<HTMLDivElement | null>>([]);
-
-  useEffect(() => {
-    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-  }, []);
-
-  useEffect(() => {
-    if (windowRefs.current) {
-      windowRefs.current = windowRefs.current.slice(0, formInputs.length + 2);
-    }
-  }, [formInputs]);
-
   setTimeout(() => setLoading(false), 1200);
 
   const submitForm = (event: any) => {
@@ -56,6 +45,16 @@ export default function Home() {
     updatedFormState[index] = change;
     setFormState(updatedFormState);
   };
+
+  useEffect(() => {
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+  }, []);
+
+  useEffect(() => {
+    if (windowRefs.current) {
+      windowRefs.current = windowRefs.current.slice(0, formInputs.length + 2);
+    }
+  }, [formInputs]);
 
   return (
     <>
@@ -81,7 +80,6 @@ export default function Home() {
                 {formInputs.map((formInput, index) => (
                   <div
                     key={index}
-                    // ref={windowRefs.current[index + 1]}
                     ref={(ref) =>
                       windowRefs &&
                       (windowRefs.current[index + 1] = ref as HTMLDivElement)

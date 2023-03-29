@@ -1,6 +1,6 @@
 import Image from "next/image";
-import logo from "@/public/images/formX.png";
 import LinearProgress from "@mui/material/LinearProgress";
+import logo from "@/public/images/formX.png";
 
 export default function Loading() {
   return (
@@ -17,4 +17,4 @@ export default function Loading() {
       </div>
     </>
   );
-};
+}
