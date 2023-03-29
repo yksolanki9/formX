@@ -5,7 +5,7 @@ type Props = {
   selected: boolean;
 };
 
-export const DropdownOption = ({ label, selected }: Props) => {
+export default function DropdownOption({ label, selected }: Props) {
   return (
     <div
       className={`flex items-center bg-white/10 hover:bg-white/30 rounded-[3px] h-fit mt-2 cursor-pointer w-full py-1 ${

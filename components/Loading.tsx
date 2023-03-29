@@ -2,7 +2,7 @@ import Image from "next/image";
 import logo from "@/public/images/formX.png";
 import LinearProgress from "@mui/material/LinearProgress";
 
-export const Loading = () => {
+export default function Loading() {
   return (
     <>
       <div className="flex items-center justify-center h-screen">

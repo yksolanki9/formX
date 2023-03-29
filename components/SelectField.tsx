@@ -1,7 +1,12 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { FormControl, FormLabel } from "@mui/material";
 import { Option } from "@/models/option.model";
-import { SelectOption } from "./SelectOption";
+import SelectOption from "./SelectOption";
 
 type Props = {
   options: Option[];
@@ -10,12 +15,12 @@ type Props = {
   handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
-export const SelectField = forwardRef<
+const SelectField: ForwardRefRenderFunction<
   {
     checkError: () => string;
   },
   Props
->(({ options, fieldName, handleChange, mandatory }: Props, ref) => {
+> = ({ options, fieldName, handleChange, mandatory }: Props, ref) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleOptionClick = (option: string) => {
@@ -59,4 +64,6 @@ export const SelectField = forwardRef<
       </FormControl>
     </>
   );
-});
+};
+
+export default forwardRef(SelectField);

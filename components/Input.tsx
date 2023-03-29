@@ -1,16 +1,16 @@
 import { FormField } from "@/models/form-field.model";
 import { useEffect, useRef, useState } from "react";
-import { Error } from "@/components/Error";
-import { NavButton } from "@/components/NavButton";
-import { SelectField } from "@/components/SelectField";
+import Error from "@/components/Error";
+import NavButton from "@/components/NavButton";
+import SelectField from "@/components/SelectField";
 import { formOptionsMapping } from "@/data/form-options-mapping";
 import { Option } from "@/models/option.model";
-import { MultiSelectField } from "./MultiSelectField";
-import { TextInput } from "./TextInput";
+import MultiSelectField from "./MultiSelectField";
+import TextInput from "./TextInput";
 import { TextInputRef } from "@/models/text-input-ref.model";
 import { Form } from "@/models/form.model";
-import { Dropdown } from "./Dropdown";
-import { MobileNumberField } from "./MobileNumberField";
+import Dropdown from "./Dropdown";
+import MobileNumberField from "./MobileNumberField";
 
 type Props = FormField & {
   scrollToNextWindow: (index: number) => void;
@@ -25,7 +25,7 @@ type Props = FormField & {
   isMobile: boolean;
 };
 
-export const Input = ({
+export default function Input({
   title,
   subtitle,
   type,
@@ -43,7 +43,7 @@ export const Input = ({
   id: fieldId,
   numInputs,
   isMobile = true,
-}: Props) => {
+}: Props) {
   const [error, setError] = useState<string | null>();
   const [options, setOptions] = useState<Option[]>([]);
 
@@ -60,7 +60,7 @@ export const Input = ({
       id: optionId,
       label: formOptionsMapping[optionId],
     }));
-    useEffect(() => setOptions(optionsForSelectField), []);
+    useEffect(() => setOptions(optionsForSelectField), [optionsForSelectField]);
   }
 
   const getOptionsForDependentField = (

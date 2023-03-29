@@ -7,7 +7,7 @@ type Props = AboutProps & {
   isMobile: boolean;
 };
 
-export const About = ({
+export default function About({
   title,
   subtitle,
   listHeader,
@@ -16,7 +16,7 @@ export const About = ({
   scrollToNextWindow,
   curWindowIndex,
   isMobile = true,
-}: Props) => {
+}: Props) {
   const handleClick = () => {
     scrollToNextWindow(curWindowIndex);
   };

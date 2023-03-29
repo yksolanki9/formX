@@ -1,6 +1,5 @@
 import Button from "@mui/material/Button";
 import DoneIcon from "@mui/icons-material/Done";
-import { useEffect, useState } from "react";
 
 type Props = {
   submitButton?: boolean;
@@ -9,12 +8,12 @@ type Props = {
   isMobile: boolean;
 };
 
-export const NavButton = ({
+export default function NavButton({
   inputType,
   onInputSubmit,
   submitButton = false,
   isMobile = true,
-}: Props) => {
+}: Props) {
   return (
     <div className="pt-4">
       <Button

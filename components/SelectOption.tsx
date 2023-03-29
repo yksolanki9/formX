@@ -8,12 +8,12 @@ type Props = {
   onOptionSelected: (option: any) => void;
 };
 
-export const SelectOption = ({
+export default function SelectOption({
   id,
   label,
   selected,
   onOptionSelected,
-}: Props) => {
+}: Props) {
   const otherOptionRef = useRef<HTMLDivElement>(null);
 
   function onOptionClicked(label: string) {

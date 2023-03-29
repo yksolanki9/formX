@@ -1,10 +1,16 @@
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  Ref,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { Option } from "@/models/option.model";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ClearIcon from "@mui/icons-material/Clear";
-import { DropdownOption } from "./DropdownOption";
+import DropdownOption from "./DropdownOption";
 
 type Props = {
   options: Option[];
@@ -13,12 +19,12 @@ type Props = {
   handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
-export const Dropdown = forwardRef<
+const Dropdown: ForwardRefRenderFunction<
   {
     checkError: () => string;
   },
   Props
->(({ options, fieldName, mandatory, handleChange }: Props, ref) => {
+> = ({ options, fieldName, mandatory, handleChange }: Props, ref) => {
   const [selectedOption, setSelectedOption] = useState<string>();
 
   const handleOptionClick = (option: string) => {
@@ -74,4 +80,6 @@ export const Dropdown = forwardRef<
       />
     </>
   );
-});
+};
+
+export default forwardRef(Dropdown);

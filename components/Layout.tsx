@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const Layout = ({ children, scroll }: Props) => {
+export default function Layout({ children, scroll }: Props) {
   return (
     <>
       <div className="absolute w-full z-10 bg-black p-4">

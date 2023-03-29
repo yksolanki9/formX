@@ -1,5 +1,11 @@
 import TextField from "@mui/material/TextField";
-import { useState, forwardRef, useImperativeHandle, useRef } from "react";
+import {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+  ForwardRefRenderFunction,
+} from "react";
 
 type Props = {
   title: string;
@@ -8,12 +14,12 @@ type Props = {
   handleChange: (change: { label: string; value: string | string[] }) => void;
 };
 
-export const TextInput = forwardRef<
+const TextInput: ForwardRefRenderFunction<
   {
     checkError: () => string;
   },
   Props
->(({ title, type, handleChange, mandatory }: Props, ref) => {
+> = ({ title, type, handleChange, mandatory }: Props, ref) => {
   const [value, setValue] = useState<string>();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -62,4 +68,6 @@ export const TextInput = forwardRef<
       onChange={OnValueChanged}
     />
   );
-});
+};
+
+export default forwardRef(TextInput);

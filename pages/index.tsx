@@ -1,12 +1,12 @@
-import { About } from "@/components/About";
-import { Input } from "@/components/Input";
+import About from "@/components/About";
+import Input from "@/components/Input";
 import { formInputs } from "@/data/form-inputs";
 import { aboutData } from "@/data/about";
-import { Layout } from "@/components/Layout";
+import Layout from "@/components/Layout";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
-import { Loading } from "@/components/Loading";
+import Loading from "@/components/Loading";
 import { Form } from "@/models/form.model";
-import { Success } from "@/components/Success";
+import Success from "@/components/Success";
 import { successData } from "@/data/success";
 
 type FormOption = {
