@@ -20,15 +20,17 @@ export default function Home() {
   const [formState, setFormState] = useState<Form>({});
   const [isMobile, setIsMobile] = useState<boolean>(true);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+  const [windowRefs, setWindowRefs] =
+    useState<MutableRefObject<HTMLDivElement[]>>();
 
   useEffect(() => {
     setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
   }, []);
 
-  const windowRefs: MutableRefObject<HTMLDivElement>[] = [];
-  for (let i = 0; i <= formInputs.length; i++) {
-    windowRefs.push(useRef() as MutableRefObject<HTMLDivElement>);
-  }
+  // const windowRefs: MutableRefObject<HTMLDivElement>[] = [];
+  // for (let i = 0; i <= formInputs.length; i++) {
+  //   windowRefs.push(useRef() as MutableRefObject<HTMLDivElement>);
+  // }
 
   setTimeout(() => setLoading(false), 1200);
 
@@ -40,8 +42,8 @@ export default function Home() {
 
   const scrollToNextWindow = (curIndex: number) => {
     const nextIndex = curIndex + 1;
-    const nextRef = windowRefs[nextIndex];
-    nextRef?.current?.scrollIntoView({
+    const nextRef = windowRefs?.current[nextIndex];
+    nextRef?.scrollIntoView({
       behavior: "smooth",
       block: "start",
       inline: "nearest",
@@ -62,7 +64,11 @@ export default function Home() {
         <Layout scroll={scroll}>
           {!formSubmitted && (
             <>
-              <div ref={windowRefs[0]}>
+              <div
+                ref={(ref) =>
+                  windowRefs && (windowRefs.current[0] = ref as HTMLDivElement)
+                }
+              >
                 <About
                   curWindowIndex={0}
                   scrollToNextWindow={scrollToNextWindow}
@@ -72,7 +78,14 @@ export default function Home() {
               </div>
               <form onSubmit={submitForm}>
                 {formInputs.map((formInput, index) => (
-                  <div key={index} ref={windowRefs[index + 1]}>
+                  <div
+                    key={index}
+                    // ref={windowRefs.current[index + 1]}
+                    ref={(ref) =>
+                      windowRefs &&
+                      (windowRefs.current[index + 1] = ref as HTMLDivElement)
+                    }
+                  >
                     <Input
                       form={formState}
                       curWindowIndex={index + 1}

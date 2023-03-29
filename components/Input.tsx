@@ -55,13 +55,15 @@ export default function Input({
     }
   );
 
-  if ((type === "select" || type === "dropdown") && optionIds?.length) {
-    const optionsForSelectField = optionIds.map((optionId) => ({
-      id: optionId,
-      label: formOptionsMapping[optionId],
-    }));
-    useEffect(() => setOptions(optionsForSelectField), [optionsForSelectField]);
-  }
+  useEffect(() => {
+    if ((type === "select" || type === "dropdown") && optionIds?.length) {
+      const optionsForSelectField = optionIds.map((optionId) => ({
+        id: optionId,
+        label: formOptionsMapping[optionId],
+      }));
+      setOptions(optionsForSelectField);
+    }
+  }, [optionIds, type]);
 
   const getOptionsForDependentField = (
     dependentOptionIds: { [key: number]: number[] },
@@ -76,8 +78,8 @@ export default function Input({
     Object.keys(obj).find((key) => formOptionsMapping[parseInt(key)] === value);
 
   // Handle Dependent field select options here
-  if (type === "dependent_select" && dependentOptionIds && parentFieldId) {
-    useEffect(() => {
+  useEffect(() => {
+    if (type === "dependent_select" && dependentOptionIds && parentFieldId) {
       let parentFieldValue = form[parentFieldId]?.value as string;
       if (parentFieldValue) {
         const parentFieldOptionId = getKeyFromValue(
@@ -92,8 +94,8 @@ export default function Input({
           setOptions(dependentFieldOptions);
         }
       }
-    }, [form[parentFieldId]]);
-  }
+    }
+  }, [form, dependentOptionIds, parentFieldId, type]);
 
   const handleInputChange = (change: {
     label: string;
@@ -114,7 +116,7 @@ export default function Input({
 
   useEffect(() => {
     allowScroll(!error);
-  }, [error]);
+  }, [error, allowScroll]);
 
   const inputRef = useRef<TextInputRef>(null);
 
