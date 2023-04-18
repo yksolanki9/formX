@@ -9,6 +9,7 @@ import { Form } from "@/models/form.model";
 import { formInputs } from "@/data/form-inputs";
 import { aboutData } from "@/data/about";
 import { successData } from "@/data/success";
+import throttle from "lodash/throttle";
 
 type FormOption = {
   label: string;
@@ -17,11 +18,12 @@ type FormOption = {
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
-  const [scroll, setScroll] = useState<boolean>(true);
   const [formState, setFormState] = useState<Form>({});
   const [isMobile, setIsMobile] = useState<boolean>(true);
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const windowRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const inputRefs = useRef<Array<{ handleInputSubmit: () => {} }>>([]);
+  const activeWindowIdx = useRef<number>(0);
   setTimeout(() => setLoading(false), 1200);
 
   const submitForm = (event: any) => {
@@ -38,6 +40,27 @@ export default function Home() {
       block: "start",
       inline: "nearest",
     });
+    activeWindowIdx.current = nextIndex;
+  };
+
+  const checkInputValidity = () => {
+    if (activeWindowIdx.current > 0) {
+      const inputRef = inputRefs?.current[activeWindowIdx.current - 1];
+      inputRef.handleInputSubmit();
+    } else {
+      scrollToNextWindow(activeWindowIdx.current);
+    }
+  };
+
+  const scrollToPrevWindow = () => {
+    const nextIndex = activeWindowIdx.current - 1;
+    const nextRef = windowRefs?.current[nextIndex];
+    nextRef?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+    activeWindowIdx.current = nextIndex;
   };
 
   const updateFormState = (change: FormOption, index: number) => {
@@ -54,14 +77,40 @@ export default function Home() {
     if (windowRefs.current) {
       windowRefs.current = windowRefs.current.slice(0, formInputs.length + 2);
     }
+    if (inputRefs.current) {
+      inputRefs.current = inputRefs.current.slice(0, formInputs.length);
+    }
   }, [formInputs]);
+
+  const throttledStart = throttle(
+    (event) => {
+      if (event.deltaY < 0) {
+        scrollToPrevWindow();
+      } else if (event.deltaY > 0) {
+        checkInputValidity();
+      }
+    },
+    2000,
+    { leading: true, trailing: false }
+  );
+
+  useEffect(() => {
+    window.addEventListener(
+      "wheel",
+      (event) => {
+        event.preventDefault();
+        throttledStart(event);
+      },
+      { passive: false }
+    );
+  }, []);
 
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <Layout scroll={scroll}>
+        <Layout scroll={false}>
           {!formSubmitted && (
             <>
               <div
@@ -89,10 +138,15 @@ export default function Home() {
                       form={formState}
                       curWindowIndex={index + 1}
                       scrollToNextWindow={scrollToNextWindow}
-                      allowScroll={setScroll}
                       updateForm={updateFormState}
                       numInputs={formInputs.length}
                       isMobile={isMobile}
+                      ref={(ref) =>
+                        inputRefs &&
+                        (inputRefs.current[index] = ref as {
+                          handleInputSubmit: () => {};
+                        })
+                      }
                       {...formInput}
                     />
                   </div>

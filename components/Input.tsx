@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  ForwardRefRenderFunction,
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import Error from "@/components/Error";
 import NavButton from "@/components/NavButton";
 import SelectField from "@/components/SelectField";
@@ -16,7 +23,6 @@ import { formOptionsMapping } from "@/data/form-options-mapping";
 type Props = FormField & {
   scrollToNextWindow: (index: number) => void;
   curWindowIndex: number;
-  allowScroll: (scroll: boolean) => void;
   updateForm: (
     change: { label: string; value: string | string[] },
     index: number
@@ -26,25 +32,32 @@ type Props = FormField & {
   isMobile: boolean;
 };
 
-export default function Input({
-  title,
-  subtitle,
-  type,
-  subtype,
-  mandatory,
-  numSelections,
-  optionIds,
-  dependentOptionIds,
-  scrollToNextWindow,
-  curWindowIndex,
-  allowScroll,
-  updateForm,
-  form,
-  parentFieldId,
-  id: fieldId,
-  numInputs,
-  isMobile = true,
-}: Props) {
+const Input: ForwardRefRenderFunction<
+  {
+    handleInputSubmit: () => void;
+  },
+  Props
+> = (
+  {
+    title,
+    subtitle,
+    type,
+    subtype,
+    mandatory,
+    numSelections,
+    optionIds,
+    dependentOptionIds,
+    scrollToNextWindow,
+    curWindowIndex,
+    updateForm,
+    form,
+    parentFieldId,
+    id: fieldId,
+    numInputs,
+    isMobile = true,
+  }: Props,
+  ref
+) => {
   const [error, setError] = useState<string | null>();
   const [options, setOptions] = useState<Option[]>([]);
   const inputRef = useRef<TextInputRef>(null);
@@ -116,9 +129,9 @@ export default function Input({
     }
   }, [form, dependentOptionIds, parentFieldId, type]);
 
-  useEffect(() => {
-    allowScroll(!error);
-  }, [error, allowScroll]);
+  useImperativeHandle(ref, () => ({
+    handleInputSubmit,
+  }));
 
   return (
     <div className="h-screen flex flex-col justify-center snap-start snap-always max-w-3xl mx-auto">
@@ -192,4 +205,6 @@ export default function Input({
       </div>
     </div>
   );
-}
+};
+
+export default forwardRef(Input);
