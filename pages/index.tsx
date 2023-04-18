@@ -103,6 +103,10 @@ export default function Home() {
       },
       { passive: false }
     );
+    return window.removeEventListener("wheel", (event) => {
+      event.preventDefault();
+      throttledStart(event);
+    });
   }, []);
 
   return (
